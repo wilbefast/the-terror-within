@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class Pessimistic : HeroPredisposition
+public class Realist : HeroPredisposition
 {
 	public override int ModifyFear (int fear)
 	{
-		 return fear + 8;
-	}
+		return fear;
+	}	
 }
