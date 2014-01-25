@@ -88,12 +88,14 @@ public class Monster : MonoBehaviour
 		{
 			GUI.Box (new Rect(900,y,150,50), "Strength = " + strength);
 			y+=75;
-		}
 		
-		foreach(var qualifier in qualifiers)
-		{
-			GUI.Box(new Rect(900, y, 150, 50), qualifier.ToString());
-			y += 75;
+		
+			foreach(var qualifier in qualifiers)
+			{
+				GUI.Box(new Rect(900, y, 150, 50), qualifier.ToString());
+				y += 75;
+			}
+			
 		}
 	}
 	
