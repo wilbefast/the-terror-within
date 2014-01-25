@@ -17,7 +17,7 @@ public class RunningAnimation : MonoBehaviour
 	void Update ()
 	{
 	
-		if(partyIsRunning)
+		if(partyIsRunning || verticalSpeed < maxVerticalSpeed)
 		{
 			if(verticalSpeed >= maxVerticalSpeed)
 			{

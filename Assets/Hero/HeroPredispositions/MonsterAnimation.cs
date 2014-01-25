@@ -17,7 +17,7 @@ public class MonsterAnimation : MonoBehaviour
 	void Update ()
 	{
 	
-		if(monsterIsRunning)
+		if(monsterIsRunning || verticalSpeed > maxVerticalSpeed)
 		{
 			if(verticalSpeed <= maxVerticalSpeed)
 			{
@@ -25,7 +25,7 @@ public class MonsterAnimation : MonoBehaviour
 			}
 			else
 			{
-				verticalSpeed += maxVerticalSpeed / 44f;
+				verticalSpeed += maxVerticalSpeed / 40f;
 			}
 			this.transform.Translate (new Vector3(0,verticalSpeed,0));
 		}
