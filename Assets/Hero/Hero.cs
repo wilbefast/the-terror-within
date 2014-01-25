@@ -81,12 +81,15 @@ public class Hero : MonoBehaviour
 	
 	void OnGUI()
 	{
-		int y = 50;
-		GUI.Box(new Rect(50, 50, 150, 50), "fear = " + fear);
+		Vector2 overhead = Camera.main.WorldToScreenPoint(transform.position - Vector3.up);
+		
+		GUI.Box(new Rect(overhead.x - 25, overhead.y, 50, 50), fear.ToString());
 	
 		
 		if(!showAttributes)
 			return;
+		
+		int y = 125;
 		
 		y += 75;
 		foreach(var phobia in phobias)
@@ -100,6 +103,12 @@ public class Hero : MonoBehaviour
 			GUI.Box(new Rect(50, y, 250, 50), predisposition.ToString());
 			y += 75;
 		}
+	}
+	
+	void OnDrawGizmos()
+	{
+		Gizmos.color = Color.green;
+		Gizmos.DrawSphere(transform.position, 0.5f);
 	}
 	
 #endif // UNITY_EDITOR
