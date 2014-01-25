@@ -6,6 +6,16 @@ using System.Collections.Generic;
 
 public abstract class MonsterQualifier : MonoBehaviour 
 {
+	#region abstract 
+	
+	public abstract string qualifierName
+	{
+		get;
+	}
+	
+	#endregion abstract 
+	
+	
 	#region generate random predisposition 
 	
 	public static List<System.Type> types = new List<System.Type>();

@@ -1,15 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class Swan : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+public class Swan : MonsterQualifier 
+{
+	public override string qualifierName
+	{
+		get
+		{
+			return "Swan";
+		}
 	}
 }
