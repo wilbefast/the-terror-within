@@ -41,6 +41,15 @@ public class Dungeon : MonoBehaviour
 		
 		private set
 		{
+			switch(value)
+			{
+			case State.FLEEING:
+				score -= 100;
+				if(score < 0)
+					score = 0;
+				break;
+			}
+			
 			__state = value;
 		}
 	}
@@ -86,6 +95,7 @@ public class Dungeon : MonoBehaviour
 	}
 	
 	public int score;
+	private int irrationalFearBonus;
 	
 	void Start()
 	{
@@ -138,6 +148,11 @@ public class Dungeon : MonoBehaviour
 					StartCoroutine(__combat());
 					break;
 				}
+				break;
+			
+			case State.CELEBRATING:
+				if(irrationalFearBonus > 0)
+					GUI.Box(new Rect(300, 500, 300, 50),  "Immersion therapy bonus: +" + irrationalFearBonus);
 				break;
 			
 			case State.FLEEING:
@@ -219,6 +234,8 @@ public class Dungeon : MonoBehaviour
 		// move out towards a new monster
 		Monster.instance.reset();
 		state = State.ADVANCING;
+		
+		
 	}
 	
 	#endregion escape 
@@ -228,6 +245,18 @@ public class Dungeon : MonoBehaviour
 	private static readonly  float combatDuration = 2.0f;
 
 	private static readonly  float celebrateDuration = 2.0f;
+	
+	public int totalFear
+	{
+		get
+		{
+			int total = 0;
+			foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
+				total += ((Hero)hero).fear;
+			
+			return total;
+		}
+	}
 	
 	private IEnumerator __combat()
 	{
@@ -243,11 +272,17 @@ public class Dungeon : MonoBehaviour
 			// start celebrating this battle being won
 			state = State.CELEBRATING;
 		
+			// add score
+			score += 500;
+			irrationalFearBonus = (int)Mathf.Floor((1.0f - (totalFear / (float)Monster.instance.strength)))*100;
+			if(irrationalFearBonus > 0)
+				score += irrationalFearBonus;
+			else
+				irrationalFearBonus = 0;
+			
 			// celebrate
 			yield return new WaitForSeconds(combatDuration);
 
-			
-			
 			// advance toward the next monster
 			state = State.ADVANCING;
 			Monster.instance.reset();
