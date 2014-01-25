@@ -1,10 +1,10 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
 public class Hero : MonoBehaviour 
 {
 	
-	[Range(1, 5)]
 	public int combatAbility = 1;
 	
 	#region phobias and predispositions 
@@ -16,7 +16,7 @@ public class Hero : MonoBehaviour
 	void Start()
 	{
 		// generate combat strength
-		combatAbility = Random.Range(1, 3);
+		combatAbility = UnityEngine.Random.Range(1, 3);
 		
 		// generate phobia(s)
 		var phobias = new GameObject("Phobias");
@@ -60,15 +60,24 @@ public class Hero : MonoBehaviour
 			
 			// base fear's initial value on the monster's actual strength
 			int total = monster.strength;
+			
+			// take the party's strength into account
 			foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
 				total -= ((Hero)hero).combatAbility;
 
 			
 			// take phobias into account
-			foreach(MonsterQualifier qualifier in monster.qualifiers)
-				foreach(MonsterQualifier phobia in phobias)
+			foreach(MonsterQualifier phobia in phobias)
+			{
+				int exponent = 0;
+				foreach(MonsterQualifier qualifier in monster.qualifiers)
+				{
 					if(phobia.GetType() == qualifier.GetType())
-						total += 10;
+						exponent ++;
+				}
+				if(exponent > 0)
+					total += (int)Math.Pow(10,exponent);
+			}
 			
 			// take predisposition into account
 			foreach(HeroPredisposition predisposition in predispositions)
