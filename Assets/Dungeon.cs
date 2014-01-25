@@ -283,7 +283,7 @@ public class Dungeon : MonoBehaviour
 				irrationalFearBonus = 0;
 			
 			// celebrate
-			yield return new WaitForSeconds(combatDuration);
+			yield return new WaitForSeconds(celebrateDuration);
 			
 			currentRoomNumber++;
 			
