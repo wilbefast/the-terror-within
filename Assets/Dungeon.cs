@@ -37,11 +37,8 @@ public class Dungeon : MonoBehaviour
 			if(GetPartyCombatStrength() >= GameObject.Find("The Hydra").GetComponent<Monster>().strength)
 			{
 				// defeat the monster; progress to next stage
-				Destroy (GameObject.Find("The Hydra"));
 				currentRoomNumber ++;
-				var newMonster = new GameObject("The Hydra");
-				newMonster.AddComponent<Monster>();
-				newMonster.transform.parent = GameObject.Find ("Monstrous Horde").transform;
+				Monster.instance.reset();
 			}
 			else
 			{

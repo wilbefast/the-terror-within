@@ -63,6 +63,11 @@ public class Monster : MonoBehaviour
 		strength += Dungeon.instance.currentRoomNumber;
 	}
 	
+	void Start()
+	{
+		reset ();
+	}
+	
 	public IEnumerable qualifiers
 	{
 		get
