@@ -15,30 +15,6 @@ public class Dungeon : MonoBehaviour
 	
 	#endregion singleton 
 	
-	#region input: keyboard controls 
-	
-	public KeyCode fightKey;
-	public KeyCode runKey;
-	
-	enum State
-	{
-		IDLE,
-		FIGHTING,
-		RUNNING
-	}
-	
-	private State __state;
-	
-	void Update () 
-	{
-		if(Input.GetKey(fightKey))
-			__state = State.FIGHTING;
-		
-		if(Input.GetKey(runKey))
-			__state = State.RUNNING;
-	}
-	
-	#endregion input: keyboard controls 
 
 	#region dungeon progression 
 	
@@ -57,10 +33,20 @@ public class Dungeon : MonoBehaviour
 	
 	#region user interface 
 	
+	public GUIText resultText;
+	
+	[RangeAttribute(1.0f, 5.0f)]
+	public float textDuration = 3.0f;
+	
 	void OnGUI()
 	{
 		if(GUI.Button(new Rect(400, 50, 100, 50), "Run"))
 		{
+			currentRoomNumber--;
+			
+			StopAllCoroutines();
+			StartCoroutine(__showTextForDuration(
+				"FLED from a strength " + Monster.instance.strength + " monster.", textDuration));
 			
 			Monster.instance.reset();
 		}
@@ -70,17 +56,39 @@ public class Dungeon : MonoBehaviour
 			if(GetPartyCombatStrength() >= Monster.instance.strength)
 			{
 				// defeat the monster; progress to next stage
-				currentRoomNumber ++;
+				currentRoomNumber++;
+				
+				StopAllCoroutines();
+				StartCoroutine(__showTextForDuration(
+					"WON against a strength " + Monster.instance.strength + " monster!", textDuration));
+				
 				Monster.instance.reset();
+				
 				foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
 					((Hero)hero).combatAbility ++;
-			}else
+			}
+			else
 			{
-				Debug.Log ("They Died. Game Over");
+				StopAllCoroutines();
+				StartCoroutine(__showTextForDuration(
+					"KILLED by a strength " + Monster.instance.strength + " monster!", textDuration));
 			}
 		}
 	
 		GUI.Box(new Rect(200, 400, 300, 50), "party strength: " + GetPartyCombatStrength());
+	}
+	
+	private IEnumerator __showTextForDuration(string text, float duration)
+	{
+		
+		
+		guiText.text = text;
+		
+		guiText.enabled = true;
+		
+		yield return new WaitForSeconds(duration);
+		
+		guiText.enabled = false;
 	}
 	
 	#endregion user interface 
