@@ -75,27 +75,6 @@ public class Monster : MonoBehaviour
 	
 #if UNITY_EDITOR
 	
-	public bool showAttributes = false;
-	
-	void OnGUI()
-	{
-		int y = 50;
-		
-		if(showAttributes)
-		{
-			GUI.Box (new Rect(900,y,150,50), "Strength = " + strength);
-			y+=75;
-		
-		
-			foreach(var qualifier in qualifiers)
-			{
-				GUI.Box(new Rect(900, y, 150, 50), qualifier.ToString());
-				y += 75;
-			}
-			
-		}
-	}
-	
 	void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
