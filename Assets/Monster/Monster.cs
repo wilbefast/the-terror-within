@@ -3,38 +3,39 @@ using System.Collections;
 
 public class Monster : MonoBehaviour
 {
-	[Range(1, 10)]
-	public int numberOfAdjectives = 3;
-	
 	void Start()
 	{
 		// add body-parts root
 		var bodyParts = new GameObject("BodyParts");
 		bodyParts.transform.parent = transform;
 		
-		
 		// add head
-		var head = new GameObject("Head");
+		var head = (GameObject)Instantiate(Resources.Load("Head"));
+		head.transform.position += transform.position;
 		head.transform.parent = bodyParts.transform;
 		head.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
 		
 		// add torso
-		var torso = new GameObject("Torso");
+		var torso = (GameObject)Instantiate(Resources.Load("Torso"));
+		torso.transform.position += transform.position;
 		torso.transform.parent = bodyParts.transform;
 		torso.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
 		
 		// add arms
-		var arms = new GameObject("Arms");
+		var arms = (GameObject)Instantiate(Resources.Load("Arms"));
+		arms.transform.position += transform.position;
 		arms.transform.parent = bodyParts.transform;
 		arms.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
 		
 		// add legs
-		var legs = new GameObject("Legs");
+		var legs = (GameObject)Instantiate(Resources.Load("Legs"));
+		legs.transform.position += transform.position;
 		legs.transform.parent = bodyParts.transform;
 		legs.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
 		
 		// add tail
-		var tail = new GameObject("Tail");
+		var tail = (GameObject)Instantiate(Resources.Load("Tail"));
+		tail.transform.position += transform.position;
 		tail.transform.parent = bodyParts.transform;
 		tail.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
 		
@@ -66,6 +67,12 @@ public class Monster : MonoBehaviour
 			GUI.Box(new Rect(900, y, 150, 50), qualifier.ToString());
 			y += 75;
 		}
+	}
+	
+	void OnDrawGizmos()
+	{
+		Gizmos.color = Color.red;
+		Gizmos.DrawSphere(transform.position, 0.5f);
 	}
 	
 #endif // UNITY_EDITOR
