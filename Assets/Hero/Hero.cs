@@ -5,6 +5,8 @@ public class Hero : MonoBehaviour
 {
 	public int combatAbility;
 	
+
+	
 	#region phobias and predispositions 
 	
 	
@@ -82,14 +84,22 @@ public class Hero : MonoBehaviour
 	
 #if UNITY_EDITOR
 	
+	private static readonly float minFear = -20.0f;
+	private static readonly float maxFear = 100.0f;
+	private static readonly int numberOfPortraits = 13;
+	
 	public bool showAttributes = false;
 	
 	void OnGUI()
 	{
-		Vector2 overhead = Camera.main.WorldToScreenPoint(transform.position - Vector3.up);
+		Vector2 overhead = Camera.main.WorldToScreenPoint(transform.position);
+		
+		float normalisedFear = (Mathf.Clamp(fear, minFear, maxFear) - minFear) / (maxFear - minFear);
+		
+		var portraitTexture = (Texture)Resources.Load("Portrait" + ((int)(normalisedFear * (numberOfPortraits-1))).ToString("D2"));
+		GUI.DrawTexture(new Rect(overhead.x - 25, overhead.y, 100, 100), portraitTexture);
 		
 		GUI.Box(new Rect(overhead.x - 25, overhead.y, 50, 50), fear.ToString());
-	
 		
 		if(!showAttributes)
 			return;

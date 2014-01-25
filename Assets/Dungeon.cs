@@ -75,7 +75,7 @@ public class Dungeon : MonoBehaviour
 			}
 		}
 	
-		GUI.Box(new Rect(200, 400, 300, 50), "party strength: " + GetPartyCombatStrength());
+		//GUI.Box(new Rect(200, 400, 300, 50), "party strength: " + GetPartyCombatStrength());
 	}
 	
 	private IEnumerator __showTextForDuration(string text, float duration)
