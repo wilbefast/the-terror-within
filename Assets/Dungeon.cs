@@ -137,6 +137,7 @@ public class Dungeon : MonoBehaviour
 			
 			case State.FLEEING:
 			case State.COMBAT:
+				// show the strength of the party relative to the monster. +ve means the *party* is stronger.
 				GUI.Box(new Rect(300, 500, 300, 50),  (-Monster.instance.strength).ToString("+#;-#;0"));
 				break;
 			
@@ -173,25 +174,25 @@ public class Dungeon : MonoBehaviour
 			remainingTime -= Time.deltaTime;
 			
 			roomOffset = 1 - remainingTime/descendDuration;
-			
 			RenderSettings.ambientLight = Color.Lerp(Color.white, Color.black, Dungeon.instance.progress);
 			
 			yield return null;
 		}
 		
-		// ultimate victory ?
+		// next level
+		roomOffset = 0.0f;
 		currentRoomNumber++;
+		
+		// ultimate victory ?
 		if(currentRoomNumber > numberOfRooms)
-			// start celebrating the war being won!
 			state = State.VICTORY;
 	}
 	
 	#endregion advance  
 	
 	#region escape 
-	
+
 	private static readonly float fleeDuration = 1.5f;
-	
 	private static readonly float regroupDuration = 1.0f;
 	
 	private IEnumerator __flight()
@@ -246,6 +247,10 @@ public class Dungeon : MonoBehaviour
 			
 			// progress to next stage
 			StartCoroutine(__descendIntoDarkness());
+		}
+		else if(Monster.instance.strength - numberOfRooms + currentRoomNumber < 0)
+		{
+			StartCoroutine(__flight());
 		}
 		else
 		{

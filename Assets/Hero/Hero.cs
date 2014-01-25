@@ -63,11 +63,9 @@ public class Hero : MonoBehaviour
 						exponent ++;
 				}
 				if(exponent > 0)
-					total += (int)Math.Pow(3, exponent + 1);
+					total += (int)Math.Pow(4, exponent);
 			}
 			
-			// take bravery into account
-			//total += braveryModifier;
 			
 			// take predisposition into account
 			foreach(HeroPredisposition predisposition in predispositions)
