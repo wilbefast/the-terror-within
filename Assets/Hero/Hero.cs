@@ -77,10 +77,16 @@ public class Hero : MonoBehaviour
 	
 #if UNITY_EDITOR
 	
+	public bool showAttributes = false;
+	
 	void OnGUI()
 	{
 		int y = 50;
 		GUI.Box(new Rect(50, 50, 150, 50), "fear = " + fear);
+	
+		
+		if(!showAttributes)
+			return;
 		
 		y += 75;
 		foreach(var phobia in phobias)

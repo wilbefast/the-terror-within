@@ -44,7 +44,9 @@ public class Dungeon : MonoBehaviour
 	#endregion input: keyboard controls 
 
 	#region dungeon progression 
+	
 	static int numberOfRooms = 15;
+	
 	public int currentRoomNumber = 1;
 	
 	public int GetPartyCombatStrength()
@@ -59,4 +61,17 @@ public class Dungeon : MonoBehaviour
 	}
 	
 	#endregion dungeon progression 
+	
+	#region user interface 
+	
+	void OnGUI()
+	{
+		if(GUI.Button(new Rect(400, 50, 100, 50), "Run"))
+			;
+		
+		if(GUI.Button(new Rect(550, 50, 100, 50), "Fight"))
+			;
+	}
+	
+	#endregion user interface 
 }
