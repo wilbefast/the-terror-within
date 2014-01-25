@@ -210,11 +210,6 @@ public class Dungeon : MonoBehaviour
 		
 		// next level
 		roomOffset = 0.0f;
-		currentRoomNumber++;
-		
-		// ultimate victory ?
-		if(currentRoomNumber > numberOfRooms)
-			state = State.VICTORY;
 	}
 	
 	#endregion advance  
@@ -289,7 +284,13 @@ public class Dungeon : MonoBehaviour
 			
 			// celebrate
 			yield return new WaitForSeconds(combatDuration);
-
+			
+			currentRoomNumber++;
+			
+			// ultimate victory ?
+			if(currentRoomNumber > numberOfRooms)
+				state = State.VICTORY;
+				
 			// advance toward the next monster
 			state = State.ADVANCING;
 			Monster.instance.reset();
