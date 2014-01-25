@@ -61,8 +61,8 @@ public class Monster : MonoBehaviour
 		tail.transform.parent = bodyParts.transform;
 		tail.AddComponent(MonsterQualifier.random());
 		
-		// set monster strength
-		strength =  UnityEngine.Random.Range(-55, 45) +  5*Dungeon.instance.currentRoomNumber;
+		// set relative strength between monster and player. A -ve number means the monster is stronger.
+		strength =  UnityEngine.Random.Range(-20, 20);
 	}
 	
 	void Start()
