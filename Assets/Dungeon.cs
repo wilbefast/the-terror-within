@@ -125,12 +125,12 @@ public class Dungeon : MonoBehaviour
 				break;
 			
 			case State.DEFEAT:
-				if(GUI.Button(new Rect(550, 100, 100, 50), "LOSER! Try again?"))
+				if(GUI.Button(new Rect(550, 200, 100, 50), "LOSER! Try again?"))
 					reset();
 				break;
 			
 			case State.VICTORY:
-				if(GUI.Button(new Rect(550, 100, 100, 50), "WINNER! Try again?"))
+				if(GUI.Button(new Rect(550, 200, 100, 50), "WINNER! Try again?"))
 					reset();
 				break;
 		}

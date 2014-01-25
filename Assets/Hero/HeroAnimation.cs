@@ -14,9 +14,20 @@ public class HeroAnimation : MonoBehaviour
 	
 	void Update ()
 	{
-		var partyIsRunning = (Dungeon.instance.state == Dungeon.State.ADVANCING);
+		var moving = false;
 		
-		if(partyIsRunning || verticalSpeed < maxVerticalSpeed)
+		if(Dungeon.instance.state == Dungeon.State.ADVANCING) 
+		{
+			// TODO face right
+			moving = true;
+		}
+		else if (Dungeon.instance.state == Dungeon.State.FLEEING) 
+		{
+			// TODO face left
+			moving = true;
+		}
+			
+		if(moving || verticalSpeed < maxVerticalSpeed)
 		{
 			if(verticalSpeed >= maxVerticalSpeed)
 			{
