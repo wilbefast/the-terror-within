@@ -3,8 +3,7 @@ using System.Collections;
 
 public class Monster : MonoBehaviour
 {
-	[Range(1, 10)]
-	public int numberOfAdjectives = 3;
+	public int strength;
 	
 	void Start()
 	{
@@ -38,14 +37,8 @@ public class Monster : MonoBehaviour
 		tail.transform.parent = bodyParts.transform;
 		tail.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
 		
-	}
-	
-	public int strength
-	{
-		get
-		{
-			return 0; 
-		}
+		// set monster strength
+		strength =  UnityEngine.Random.Range(5,25);
 	}
 	
 	public IEnumerable qualifiers

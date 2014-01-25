@@ -3,35 +3,11 @@ using System.Collections;
 
 public class Hero : MonoBehaviour 
 {
-	#region input: keyboard controls 
 	
-	public KeyCode fightKey;
-	public KeyCode runKey;
-	
-	enum State
-	{
-		IDLE,
-		FIGHTING,
-		RUNNING
-	}
-	
-	private State __state;
-	
-	void Update () 
-	{
-		if(Input.GetKey(fightKey))
-			__state = State.FIGHTING;
-		
-		if(Input.GetKey(runKey))
-			__state = State.RUNNING;
-	}
-	
-	#endregion input: keyboard controls 
+	public float combatAbility = 3.0f;
 	
 	#region phobias and predispositions 
 	
-	[Range(0, 10)]
-	public int numberOfPhobias = 3;
 	
 	[Range(0, 10)]
 	public int numberOfPredispositions = 1;
@@ -41,8 +17,12 @@ public class Hero : MonoBehaviour
 		// generate phobia(s)
 		var phobias = new GameObject("Phobias");
 		phobias.transform.parent = transform;
-		for(int i = 0; i < numberOfPhobias; i++)
-			phobias.AddComponent(MonsterQualifier.random());
+		
+		foreach(System.Type qualifier in MonsterQualifier.types)
+		{
+			if(UnityEngine.Random.Range(0,1.0f) < 0.2f)
+				phobias.AddComponent(qualifier);
+		}
 		
 		// generate predisposition(s)
 		var predispositions = new GameObject("Predispositions");
