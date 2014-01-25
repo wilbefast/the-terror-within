@@ -67,11 +67,25 @@ public class Dungeon : MonoBehaviour
 	
 	#region dungeon progression 
 	
-	private static int numberOfRooms = 10;
+	public static readonly int numberOfRooms = 10;
 	
-	public int currentRoomNumber;
+	private int currentRoomNumber;
+	private float roomOffset = 0.0f;
+	
+	public float progress
+	{
+		get
+		{
+			return ((currentRoomNumber + roomOffset) / (float)numberOfRooms);
+		}
+	}
 	
 	public int score;
+	
+	void Start()
+	{
+		reset();
+	}
 	
 	public void reset()
 	{	
@@ -82,7 +96,9 @@ public class Dungeon : MonoBehaviour
 		__state = State.ADVANCING;
 		
 		// reset progression
+		RenderSettings.ambientLight = Color.white;
 		currentRoomNumber = 1;
+		roomOffset = 0.0f;
 		
 		// reset heroes
 		foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
@@ -98,11 +114,6 @@ public class Dungeon : MonoBehaviour
 	
 	#region user interface 
 	
-	public GUIText resultText;
-	
-	[RangeAttribute(1.0f, 5.0f)]
-	public float textDuration = 3.0f;
-	
 	void OnGUI()
 	{
 		// show decision buttons
@@ -110,12 +121,18 @@ public class Dungeon : MonoBehaviour
 		{
 			case State.DECISION:
 				if(GUI.Button(new Rect(400, 50, 100, 50), "Flee"))
+				{
 					// choose to run away
 					StartCoroutine(__flight());
+					break;
+				}
 				
 				if(GUI.Button(new Rect(550, 50, 100, 50), "Fight"))
+				{
 					// choose to fight
 					StartCoroutine(__combat());
+					break;
+				}
 				break;
 			
 			case State.FLEEING:
@@ -143,13 +160,39 @@ public class Dungeon : MonoBehaviour
 	
 	#endregion user interface 
 	
+	#region advance 
+	
+	private static readonly float descendDuration = 3.0f; 
+	
+	private IEnumerator __descendIntoDarkness()
+	{
+		float remainingTime = descendDuration;
+		
+		while(remainingTime > 0)
+		{
+			remainingTime -= Time.deltaTime;
+			
+			roomOffset = 1 - remainingTime/descendDuration;
+			
+			RenderSettings.ambientLight = Color.Lerp(Color.white, Color.black, Dungeon.instance.progress);
+			
+			yield return null;
+		}
+		
+		// ultimate victory ?
+		currentRoomNumber++;
+		if(currentRoomNumber > numberOfRooms)
+			// start celebrating the war being won!
+			state = State.VICTORY;
+	}
+	
+	#endregion advance  
+	
 	#region escape 
 	
-	[Range(0.0f, 5.0f)]
-	public float fleeDuration = 4.0f;
+	private static readonly float fleeDuration = 1.5f;
 	
-	[Range(0.0f, 5.0f)]
-	public float regroupDuration = 1.0f;
+	private static readonly float regroupDuration = 1.0f;
 	
 	private IEnumerator __flight()
 	{
@@ -158,7 +201,7 @@ public class Dungeon : MonoBehaviour
 		
 		// flee
 		yield return new WaitForSeconds(fleeDuration);
-		
+	
 		// start to regroup
 		state = State.REGROUPING;
 		
@@ -174,11 +217,9 @@ public class Dungeon : MonoBehaviour
 	
 	#region combat 
 	
-	[Range(0.0f, 5.0f)]
-	public float combatDuration = 2.0f;
+	private static readonly  float combatDuration = 2.0f;
 
-	[Range(0.0f, 5.0f)]
-	public float celebrateDuration = 2.0f;
+	private static readonly  float celebrateDuration = 2.0f;
 	
 	private IEnumerator __combat()
 	{
@@ -191,25 +232,20 @@ public class Dungeon : MonoBehaviour
 		// stop fighting
 		if(Monster.instance.strength < 0)
 		{
-			// defeat the monster: progress to next stage
-			currentRoomNumber++;
+			// start celebrating this battle being won
+			state = State.CELEBRATING;
+		
+			// celebrate
+			yield return new WaitForSeconds(combatDuration);
+
 			
-			// ultimate victory ?
-			if(currentRoomNumber > numberOfRooms)
-				// start celebrating the war being won!
-				state = State.VICTORY;
-			else
-			{
-				// start celebrating this battle being won
-				state = State.CELEBRATING;
 			
-				// celebrate
-				yield return new WaitForSeconds(combatDuration);
-	
-				// advance toward the next monster
-				state = State.ADVANCING;
-				Monster.instance.reset();
-			}
+			// advance toward the next monster
+			state = State.ADVANCING;
+			Monster.instance.reset();
+			
+			// progress to next stage
+			StartCoroutine(__descendIntoDarkness());
 		}
 		else
 		{
