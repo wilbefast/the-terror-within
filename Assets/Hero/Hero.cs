@@ -3,9 +3,7 @@ using System;
 using System.Collections;
 
 public class Hero : MonoBehaviour 
-{
-	public int combatAbility = 1;
-		
+{	
 	void Start()
 	{
 		reset();
@@ -13,8 +11,7 @@ public class Hero : MonoBehaviour
 	
 	#region phobias and predispositions 
 	
-	[Range(0, 10)]
-	public int numberOfPredispositions = 1;
+	public int combatAbility = 1;
 	
 	public void reset()
 	{
@@ -24,18 +21,12 @@ public class Hero : MonoBehaviour
 		// generate phobia(s)
 		var phobias = new GameObject("Phobias");
 		phobias.transform.parent = transform;
-		
-		foreach(System.Type qualifier in MonsterQualifier.types)
-		{
-			if(UnityEngine.Random.Range(0, 1.0f) < 0.2f)
-				phobias.AddComponent(qualifier);
-		}
+		phobias.AddComponent(MonsterQualifier.random());
 		
 		// generate predisposition(s)
-		var predispositions = new GameObject("Predispositions");
+		/*var predispositions = new GameObject("Predispositions");
 		predispositions.transform.parent = transform;
-		for(int i = 0; i < numberOfPredispositions; i++)
-			predispositions.AddComponent(HeroPredisposition.random());
+		predispositions.AddComponent(HeroPredisposition.random());*/
 	}
 	
 	public IEnumerable phobias
@@ -77,8 +68,7 @@ public class Hero : MonoBehaviour
 					if(phobia.GetType() == qualifier.GetType())
 						exponent ++;
 				}
-				if(exponent > 0)
-					total += (int)Math.Pow(10,exponent);
+				total += 5*(int)Math.Pow(2, exponent);
 			}
 			
 			// take predisposition into account
@@ -93,8 +83,8 @@ public class Hero : MonoBehaviour
 	#endregion phobias and predispositions 
 	
 	
-	private static readonly float minFear = -20.0f;
-	private static readonly float maxFear = 100.0f;
+	private static readonly float minFear = -50.0f;
+	private static readonly float maxFear = 50.0f;
 	private static readonly int numberOfPortraits = 13;
 	
 #if UNITY_EDITOR	
@@ -151,20 +141,11 @@ public class Hero : MonoBehaviour
 #if UNITY_EDITOR
 		if(showAttributes)
 		{
-			int y = 125;
-			
-			y += 75;
 			foreach(var phobia in phobias)
-			{
-				GUI.Box(new Rect(50, y, 150, 50), phobia.ToString());
-				y += 75;
-			}
+				GUI.Box(new Rect(portraitPosition.x, portraitPosition.y + 100, 150, 50), phobia.ToString());
 			
 			foreach(var predisposition in predispositions)
-			{
-				GUI.Box(new Rect(50, y, 250, 50), predisposition.ToString());
-				y += 75;
-		}
+				GUI.Box(new Rect(portraitPosition.x, portraitPosition.y + 100, 250, 50), predisposition.ToString());
 		}
 #endif // UNITY_EDITOR
 	}
