@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Monster : MonoBehaviour
 {
+	public int strength;
+
 	void Start()
 	{
 		// add body-parts root
@@ -39,14 +41,8 @@ public class Monster : MonoBehaviour
 		tail.transform.parent = bodyParts.transform;
 		tail.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
 		
-	}
-	
-	public int strength
-	{
-		get
-		{
-			return 0; 
-		}
+		// set monster strength
+		strength =  UnityEngine.Random.Range(5,25);
 	}
 	
 	public IEnumerable qualifiers
@@ -62,6 +58,10 @@ public class Monster : MonoBehaviour
 	void OnGUI()
 	{
 		int y = 50;
+		GUI.Box (new Rect(900,y,150,50), "Strength = " + strength);
+		
+		y+=75;
+		
 		foreach(var qualifier in qualifiers)
 		{
 			GUI.Box(new Rect(900, y, 150, 50), qualifier.ToString());
