@@ -32,35 +32,34 @@ public class Monster : MonoBehaviour
 		var head = (GameObject)Instantiate(Resources.Load("Head"));
 		head.transform.position += transform.position;
 		head.transform.parent = bodyParts.transform;
-		head.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
+		head.AddComponent(MonsterQualifier.random());
 		
 		// add torso
 		var torso = (GameObject)Instantiate(Resources.Load("Torso"));
 		torso.transform.position += transform.position;
 		torso.transform.parent = bodyParts.transform;
-		torso.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
+		torso.AddComponent(MonsterQualifier.random());
 		
 		// add arms
 		var arms = (GameObject)Instantiate(Resources.Load("Arms"));
 		arms.transform.position += transform.position;
 		arms.transform.parent = bodyParts.transform;
-		arms.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
+		arms.AddComponent(MonsterQualifier.random());
 		
 		// add legs
 		var legs = (GameObject)Instantiate(Resources.Load("Legs"));
 		legs.transform.position += transform.position;
 		legs.transform.parent = bodyParts.transform;
-		legs.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
+		legs.AddComponent(MonsterQualifier.random());
 		
 		// add tail
 		var tail = (GameObject)Instantiate(Resources.Load("Tail"));
 		tail.transform.position += transform.position;
 		tail.transform.parent = bodyParts.transform;
-		tail.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
+		tail.AddComponent(MonsterQualifier.random());
 		
 		// set monster strength
-		strength =  UnityEngine.Random.Range(5, 25);
-		strength +=  5 * Dungeon.instance.currentRoomNumber;
+		strength =  UnityEngine.Random.Range(1, 10)* Dungeon.instance.currentRoomNumber;
 	}
 	
 	void Start()
