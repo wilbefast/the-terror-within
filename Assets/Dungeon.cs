@@ -42,8 +42,6 @@ public class Dungeon : MonoBehaviour
 	{
 		if(GUI.Button(new Rect(400, 50, 100, 50), "Run"))
 		{
-			currentRoomNumber--;
-			
 			StopAllCoroutines();
 			StartCoroutine(__showTextForDuration(
 				"FLED from a strength " + Monster.instance.strength + " monster.", textDuration));
