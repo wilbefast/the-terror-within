@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class Dungeon : MonoBehaviour
 {
@@ -254,7 +255,7 @@ public class Dungeon : MonoBehaviour
 		{
 			int total = 0;
 			foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
-				total += ((Hero)hero).fear;
+				total += Math.Min (25,((Hero)hero).fear);
 			
 			return total;
 		}
@@ -269,7 +270,7 @@ public class Dungeon : MonoBehaviour
 		yield return new WaitForSeconds(combatDuration);
 	
 		// stop fighting
-		if(Monster.instance.strength < 0)
+		if(Monster.instance.strength <= 0)
 		{
 			// start celebrating this battle being won
 			state = State.CELEBRATING;
@@ -298,7 +299,7 @@ public class Dungeon : MonoBehaviour
 			// progress to next stage
 			StartCoroutine(__descendIntoDarkness());
 		}
-		else if(Monster.instance.strength - numberOfRooms + currentRoomNumber < 0)
+		else if(Monster.instance.strength - numberOfRooms + currentRoomNumber <= 0)
 		{
 			StartCoroutine(__flight());
 		}
