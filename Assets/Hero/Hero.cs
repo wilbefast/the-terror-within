@@ -27,7 +27,7 @@ public class Hero : MonoBehaviour
 		
 		foreach(System.Type qualifier in MonsterQualifier.types)
 		{
-			if(UnityEngine.Random.Range(0,1.0f) < 0.2f)
+			if(UnityEngine.Random.Range(0, 1.0f) < 0.2f)
 				phobias.AddComponent(qualifier);
 		}
 		
@@ -93,49 +93,84 @@ public class Hero : MonoBehaviour
 	#endregion phobias and predispositions 
 	
 	
-#if UNITY_EDITOR
-	
 	private static readonly float minFear = -20.0f;
 	private static readonly float maxFear = 100.0f;
 	private static readonly int numberOfPortraits = 13;
 	
+#if UNITY_EDITOR	
 	public bool showAttributes = false;
+#endif // UNITY_EDITOR
 	
 	void OnGUI()
 	{
-		Vector2 overhead = Camera.main.WorldToScreenPoint(transform.position);
+		// choose where to draw portrait
+		Vector2 portraitPosition = Camera.main.WorldToScreenPoint(transform.position);
 		
-		float normalisedFear = (Mathf.Clamp(fear, minFear, maxFear) - minFear) / (maxFear - minFear);
-		
-		var portraitTexture = (Texture)Resources.Load("Portrait" + ((int)(normalisedFear * (numberOfPortraits-1))).ToString("D2"));
-		GUI.DrawTexture(new Rect(overhead.x - 25, overhead.y, 100, 100), portraitTexture);
-		
-		//GUI.Box(new Rect(overhead.x - 25, overhead.y, 50, 50), fear.ToString());
-		
-		if(!showAttributes)
-			return;
-		
-		int y = 125;
-		
-		y += 75;
-		foreach(var phobia in phobias)
+		// choose which portrait to draw
+		Texture portraitTexture;
+		switch(Dungeon.instance.state)
 		{
-			GUI.Box(new Rect(50, y, 150, 50), phobia.ToString());
-			y += 75;
+			case Dungeon.State.DECISION:
+			case Dungeon.State.COMBAT:
+				float normalisedFear = (Mathf.Clamp(fear, minFear, maxFear) - minFear) / (maxFear - minFear);
+				portraitTexture = (Texture)Resources.Load("Portrait" + ((int)(normalisedFear * (numberOfPortraits-1))).ToString("D2"));
+				break;
+			
+			case Dungeon.State.DEFEAT:
+				portraitTexture = (Texture)Resources.Load("PortraitDead");
+				break;
+			
+			case Dungeon.State.CELEBRATING:
+				portraitTexture = (Texture)Resources.Load("PortraitCelebrate");
+				break;
+			
+			case Dungeon.State.FLEEING:
+				portraitTexture = (Texture)Resources.Load("PortraitFlee");
+				break;
+			
+			case Dungeon.State.VICTORY:
+				portraitTexture = (Texture)Resources.Load("PortraitVictory");
+				break;
+			
+			default:
+				portraitTexture = (Texture)Resources.Load("Portrait02");
+				break;	
 		}
 		
-		foreach(var predisposition in predispositions)
+		// draw it
+		GUI.DrawTexture(new Rect(portraitPosition.x - 25, portraitPosition.y, 100, 100), portraitTexture);
+	
+		/*
+		 * Debug stuff
+		 */
+		
+#if UNITY_EDITOR
+		if(showAttributes)
 		{
-			GUI.Box(new Rect(50, y, 250, 50), predisposition.ToString());
+			int y = 125;
+			
 			y += 75;
+			foreach(var phobia in phobias)
+			{
+				GUI.Box(new Rect(50, y, 150, 50), phobia.ToString());
+				y += 75;
+			}
+			
+			foreach(var predisposition in predispositions)
+			{
+				GUI.Box(new Rect(50, y, 250, 50), predisposition.ToString());
+				y += 75;
 		}
+		}
+#endif // UNITY_EDITOR
 	}
 	
+#if UNITY_EDITOR
 	void OnDrawGizmos()
 	{
 		Gizmos.color = Color.green;
 		Gizmos.DrawSphere(transform.position, 0.5f);
 	}
-	
 #endif // UNITY_EDITOR
+
 }
