@@ -5,6 +5,6 @@ public class Pessimistic : HeroPredisposition
 {
 	public override int ModifyFear (int fear)
 	{
-		 return fear + 5;
+		 return fear + 25;
 	}
 }
