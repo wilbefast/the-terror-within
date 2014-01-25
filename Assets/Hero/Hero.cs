@@ -4,7 +4,7 @@ using System.Collections;
 public class Hero : MonoBehaviour 
 {
 	
-	public int combatAbility = 3;
+	public int combatAbility;
 	
 	#region phobias and predispositions 
 	
@@ -14,6 +14,7 @@ public class Hero : MonoBehaviour
 	
 	void Start()
 	{
+		combatAbility = 7;
 		// generate phobia(s)
 		var phobias = new GameObject("Phobias");
 		phobias.transform.parent = transform;
@@ -56,12 +57,15 @@ public class Hero : MonoBehaviour
 			
 			// base fear's initial value on the monster's actual strength
 			int total = monster.strength;
+			foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
+				total -= ((Hero)hero).combatAbility;
+
 			
 			// take phobias into account
 			foreach(MonsterQualifier qualifier in monster.qualifiers)
 				foreach(MonsterQualifier phobia in phobias)
 					if(phobia.GetType() == qualifier.GetType())
-						total += 1;
+						total += 10;
 			
 			// take predisposition into account
 			foreach(HeroPredisposition predisposition in predispositions)

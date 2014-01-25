@@ -60,12 +60,12 @@ public class Monster : MonoBehaviour
 		
 		// set monster strength
 		strength =  UnityEngine.Random.Range(5, 25);
-		strength += Dungeon.instance.currentRoomNumber;
+		strength +=  5 * Dungeon.instance.currentRoomNumber;
 	}
 	
 	void Start()
 	{
-		reset();
+		reset ();
 	}
 	
 	public IEnumerable qualifiers
