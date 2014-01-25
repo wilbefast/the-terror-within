@@ -5,6 +5,6 @@ public class PrimaDonna : HeroPredisposition
 {
 	public override int ModifyFear(int fear)
 	{
-		return fear * 10;
+		return fear * 5;
 	}
 }
