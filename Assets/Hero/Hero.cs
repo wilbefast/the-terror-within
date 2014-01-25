@@ -63,7 +63,7 @@ public class Hero : MonoBehaviour
 						exponent ++;
 				}
 				if(exponent > 0)
-					total += (int)Math.Pow(4, exponent);
+					total += (6 + (int)Math.Pow(4, exponent));
 			}
 			
 			
@@ -79,8 +79,8 @@ public class Hero : MonoBehaviour
 	#endregion phobias and predispositions 
 	
 	
-	private static readonly float minFear = -50.0f;
-	private static readonly float maxFear = 50.0f;
+	private static readonly float minFear = -25.0f;
+	private static readonly float maxFear = 25.0f;
 	private static readonly int numberOfPortraits = 13;
 	
 #if UNITY_EDITOR	
