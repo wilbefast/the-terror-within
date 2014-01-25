@@ -67,9 +67,9 @@ public class Dungeon : MonoBehaviour
 	
 	#region dungeon progression 
 	
-	static int numberOfRooms = 15;
+	static int numberOfRooms = 5;
 	
-	public int currentRoomNumber = 1;
+	public int currentRoomNumber;
 	
 	public int combinedHeroStrength
 	{
@@ -134,6 +134,8 @@ public class Dungeon : MonoBehaviour
 					reset();
 				break;
 		}
+		
+		GUI.Box(new Rect(200, 400, 300, 50), "room: " + currentRoomNumber);
 		
 	
 		//GUI.Box(new Rect(200, 400, 300, 50), "party strength: " + GetPartyCombatStrength());

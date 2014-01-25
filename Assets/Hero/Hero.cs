@@ -11,12 +11,21 @@ public class Hero : MonoBehaviour
 	
 	#region phobias and predispositions 
 	
-	public int combatAbility = 1;
+	public int combatAbility;
+	
+	public int braveryModifier;
 	
 	public void reset()
 	{
+		// remove all sub-objects
+		foreach(Transform child in transform)
+			DestroyImmediate(child.gameObject);
+		
 		// generate combat strength
-		combatAbility = UnityEngine.Random.Range(1, 3);
+		combatAbility = UnityEngine.Random.Range(5, 3);
+		
+		// generate bravery
+		//braveryModifier = UnityEngine.Random.Range(-5, 5);
 		
 		// generate phobia(s)
 		var phobias = new GameObject("Phobias");
@@ -68,8 +77,11 @@ public class Hero : MonoBehaviour
 					if(phobia.GetType() == qualifier.GetType())
 						exponent ++;
 				}
-				total += 5*(int)Math.Pow(2, exponent);
+				total += 15*(int)Math.Pow(2, exponent);
 			}
+			
+			// take bravery into account
+			//total += braveryModifier;
 			
 			// take predisposition into account
 			foreach(HeroPredisposition predisposition in predispositions)
