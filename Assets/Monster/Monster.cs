@@ -4,9 +4,13 @@ using System.Collections;
 public class Monster : MonoBehaviour
 {
 	public int strength;
-
-	void Start()
+	
+	public void reset()
 	{
+		// remove all sub-objects
+		foreach(Transform child in transform)
+			DestroyImmediate(child.gameObject);
+		
 		// add body-parts root
 		var bodyParts = new GameObject("BodyParts");
 		bodyParts.transform.parent = transform;
@@ -42,7 +46,12 @@ public class Monster : MonoBehaviour
 		tail.AddComponent(MonsterQualifier.randomExcluding(qualifiers));
 		
 		// set monster strength
-		strength =  UnityEngine.Random.Range(5,25);
+		strength =  UnityEngine.Random.Range(5, 25);
+	}
+
+	void Start()
+	{
+		reset();
 	}
 	
 	public IEnumerable qualifiers

@@ -51,13 +51,18 @@ public class Dungeon : MonoBehaviour
 	
 	public int GetPartyCombatStrength()
 	{
-		int output = 0;
-		Transform heroicParty = GameObject.Find("Heroic Party").transform;
-		for(int i = 0; i < heroicParty.childCount; i++)
+		int totalCombatAbility = 0;
+		foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
+			totalCombatAbility += ((Hero)hero).combatAbility;
+		return totalCombatAbility;
+	}
+	
+	public Monster monster
+	{
+		get
 		{
-			output += heroicParty.GetChild(i).GetComponent<Hero>().combatAbility;
+			return (Monster)GameObject.FindSceneObjectsOfType(typeof(Monster))[0];
 		}
-		return output;
 	}
 	
 	#endregion dungeon progression 
@@ -67,10 +72,10 @@ public class Dungeon : MonoBehaviour
 	void OnGUI()
 	{
 		if(GUI.Button(new Rect(400, 50, 100, 50), "Run"))
-			;
+			monster.reset();
 		
 		if(GUI.Button(new Rect(550, 50, 100, 50), "Fight"))
-			;
+			monster.reset();
 	}
 	
 	#endregion user interface 
