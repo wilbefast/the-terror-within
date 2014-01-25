@@ -65,11 +65,6 @@ public class Monster : MonoBehaviour
 		strength =  UnityEngine.Random.Range(-20, 20);
 	}
 	
-	void Start()
-	{
-		reset ();
-	}
-	
 	public IEnumerable qualifiers
 	{
 		get

@@ -84,7 +84,7 @@ public class Dungeon : MonoBehaviour
 	
 	public static readonly int numberOfRooms = 10;
 	
-	private int currentRoomNumber;
+	public int currentRoomNumber;
 	private float roomOffset = 0.0f;
 	
 	public float progress

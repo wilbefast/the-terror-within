@@ -4,18 +4,13 @@ using System.Collections;
 
 public class Hero : MonoBehaviour 
 {	
-	void Start()
-	{
-		reset();
-	}
-	
 	#region phobias and predispositions 
 	
 	public void reset()
 	{
 		// remove all sub-objects
 		foreach(Transform child in transform)
-			DestroyImmediate(child.gameObject);
+			Destroy(child.gameObject);
 
 		// generate phobia(s)
 		var phobias = new GameObject("Phobias");
@@ -23,9 +18,9 @@ public class Hero : MonoBehaviour
 		phobias.AddComponent(MonsterQualifier.random());
 		
 		// generate predisposition(s)
-		/*var predispositions = new GameObject("Predispositions");
+		var predispositions = new GameObject("Predispositions");
 		predispositions.transform.parent = transform;
-		predispositions.AddComponent(HeroPredisposition.random());*/
+		predispositions.AddComponent(HeroPredisposition.random());
 	}
 	
 	public IEnumerable phobias
