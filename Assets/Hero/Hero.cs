@@ -4,7 +4,7 @@ using System.Collections;
 public class Hero : MonoBehaviour 
 {
 	
-	public int combatAbility = 3;
+	public int combatAbility;
 	
 	#region phobias and predispositions 
 	
@@ -14,6 +14,7 @@ public class Hero : MonoBehaviour
 	
 	void Start()
 	{
+		combatAbility = 7;
 		// generate phobia(s)
 		var phobias = new GameObject("Phobias");
 		phobias.transform.parent = transform;

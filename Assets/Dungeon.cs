@@ -32,19 +32,7 @@ public class Dungeon : MonoBehaviour
 	void Update () 
 	{
 		if(Input.GetKey(fightKey))
-		{
 			__state = State.FIGHTING;
-			if(GetPartyCombatStrength() >= GameObject.Find("The Hydra").GetComponent<Monster>().strength)
-			{
-				// defeat the monster; progress to next stage
-				currentRoomNumber ++;
-				Monster.instance.reset();
-			}
-			else
-			{
-				// death, defeat, dishonour
-			}
-		}
 		
 		if(Input.GetKey(runKey))
 			__state = State.RUNNING;
@@ -72,11 +60,26 @@ public class Dungeon : MonoBehaviour
 	void OnGUI()
 	{
 		if(GUI.Button(new Rect(400, 50, 100, 50), "Run"))
+		{
+			
 			Monster.instance.reset();
+		}
 		
 		if(GUI.Button(new Rect(550, 50, 100, 50), "Fight"))
-			Monster.instance.reset();
-		
+		{
+			if(GetPartyCombatStrength() >= Monster.instance.strength)
+			{
+				// defeat the monster; progress to next stage
+				currentRoomNumber ++;
+				Monster.instance.reset();
+				foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
+					((Hero)hero).combatAbility ++;
+			}else
+			{
+				Debug.Log ("They Died. Game Over");
+			}
+		}
+	
 		GUI.Box(new Rect(200, 400, 300, 50), "party strength: " + GetPartyCombatStrength());
 	}
 	
