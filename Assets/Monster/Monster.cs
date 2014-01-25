@@ -24,6 +24,9 @@ public class Monster : MonoBehaviour
 		foreach(Transform child in transform)
 			DestroyImmediate(child.gameObject);
 		
+		// move back to parent position
+		transform.localPosition = Vector3.zero;
+		
 		// add body-parts root
 		var bodyParts = new GameObject("BodyParts");
 		bodyParts.transform.parent = transform;

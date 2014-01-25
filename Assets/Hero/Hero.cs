@@ -5,13 +5,18 @@ using System.Collections;
 public class Hero : MonoBehaviour 
 {
 	public int combatAbility = 1;
+		
+	void Start()
+	{
+		reset();
+	}
 	
 	#region phobias and predispositions 
 	
 	[Range(0, 10)]
 	public int numberOfPredispositions = 1;
 	
-	void Start()
+	public void reset()
 	{
 		// generate combat strength
 		combatAbility = UnityEngine.Random.Range(1, 3);
@@ -32,7 +37,6 @@ public class Hero : MonoBehaviour
 		for(int i = 0; i < numberOfPredispositions; i++)
 			predispositions.AddComponent(HeroPredisposition.random());
 	}
-	
 	
 	public IEnumerable phobias
 	{
@@ -106,7 +110,7 @@ public class Hero : MonoBehaviour
 		var portraitTexture = (Texture)Resources.Load("Portrait" + ((int)(normalisedFear * (numberOfPortraits-1))).ToString("D2"));
 		GUI.DrawTexture(new Rect(overhead.x - 25, overhead.y, 100, 100), portraitTexture);
 		
-		GUI.Box(new Rect(overhead.x - 25, overhead.y, 50, 50), fear.ToString());
+		//GUI.Box(new Rect(overhead.x - 25, overhead.y, 50, 50), fear.ToString());
 		
 		if(!showAttributes)
 			return;

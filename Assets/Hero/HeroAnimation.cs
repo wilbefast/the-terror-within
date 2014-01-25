@@ -1,9 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class RunningAnimation : MonoBehaviour
+public class HeroAnimation : MonoBehaviour
 {
-	public bool partyIsRunning;
 	public float baseLine, verticalSpeed;
 	private float maxVerticalSpeed = 0.25f;
 	
@@ -11,12 +10,12 @@ public class RunningAnimation : MonoBehaviour
 	{
 		baseLine = this.transform.position.y;
 		verticalSpeed = maxVerticalSpeed;
-		partyIsRunning = false;
 	}
 	
 	void Update ()
 	{
-	
+		var partyIsRunning = (Dungeon.instance.state == Dungeon.State.ADVANCING);
+		
 		if(partyIsRunning || verticalSpeed < maxVerticalSpeed)
 		{
 			if(verticalSpeed >= maxVerticalSpeed)
