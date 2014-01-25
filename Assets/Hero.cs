@@ -4,7 +4,7 @@ using System.Collections;
 public class Hero : MonoBehaviour 
 {
 	
-	public float combatAbility = 3.0f;
+	public int combatAbility = 3;
 	
 	#region phobias and predispositions 
 	
