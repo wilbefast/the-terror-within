@@ -116,6 +116,10 @@ public class Hero : MonoBehaviour
 				portraitTexture = (Texture)Resources.Load("Portrait" + ((int)(normalisedFear * (numberOfPortraits-1))).ToString("D2"));
 				break;
 			
+			case Dungeon.State.ADVANCING:
+				portraitTexture = (Texture)Resources.Load("PortraitAdvancing");
+				break;
+			
 			case Dungeon.State.DEFEAT:
 				portraitTexture = (Texture)Resources.Load("PortraitDead");
 				break;
