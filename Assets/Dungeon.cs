@@ -76,6 +76,8 @@ public class Dungeon : MonoBehaviour
 		
 		if(GUI.Button(new Rect(550, 50, 100, 50), "Fight"))
 			Monster.instance.reset();
+		
+		GUI.Box(new Rect(200, 400, 300, 50), "party strength: " + GetPartyCombatStrength());
 	}
 	
 	#endregion user interface 
