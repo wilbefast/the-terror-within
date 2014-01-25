@@ -1,6 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Hero\HeroPredispositions\MonsterAnimation.cs">
+    <Files>
+      <File FileName="Assets\Hero\HeroPredispositions\RunningAnimation.cs" Line="30" Column="62" />
+      <File FileName="Assets\Hero\HeroPredispositions\MonsterAnimation.cs" Line="17" Column="2" />
+      <File FileName="Assets\Hero\Hero.cs" Line="57" Column="75" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
