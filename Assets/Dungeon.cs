@@ -67,23 +67,17 @@ public class Dungeon : MonoBehaviour
 	
 	#region dungeon progression 
 	
-	static int numberOfRooms = 5;
+	private static int numberOfRooms = 10;
 	
 	public int currentRoomNumber;
 	
-	public int combinedHeroStrength
-	{
-		get
-		{
-			int totalCombatAbility = 0;
-			foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
-				totalCombatAbility += ((Hero)hero).combatAbility;
-			return totalCombatAbility;
-		}
-	}
+	public int score;
 	
 	public void reset()
 	{	
+		// reset the score
+		score = 0;
+		
 		// reset the state
 		__state = State.ADVANCING;
 		
@@ -124,6 +118,11 @@ public class Dungeon : MonoBehaviour
 					StartCoroutine(__combat());
 				break;
 			
+			case State.FLEEING:
+			case State.COMBAT:
+				GUI.Box(new Rect(300, 500, 300, 50),  (-Monster.instance.strength).ToString("+#;-#;0"));
+				break;
+			
 			case State.DEFEAT:
 				if(GUI.Button(new Rect(550, 200, 100, 50), "LOSER! Try again?"))
 					reset();
@@ -135,10 +134,11 @@ public class Dungeon : MonoBehaviour
 				break;
 		}
 		
-		GUI.Box(new Rect(200, 400, 300, 50), "room: " + currentRoomNumber);
+		GUI.Box(new Rect(20, 470, 300, 50), "room: " + currentRoomNumber);
 		
+		GUI.Box(new Rect(20, 20, 300, 50), "score: " + score);
 	
-		//GUI.Box(new Rect(200, 400, 300, 50), "party strength: " + GetPartyCombatStrength());
+		
 	}
 	
 	#endregion user interface 
@@ -189,15 +189,10 @@ public class Dungeon : MonoBehaviour
 		yield return new WaitForSeconds(combatDuration);
 	
 		// stop fighting
-		if(combinedHeroStrength >= Monster.instance.strength)
+		if(Monster.instance.strength < 0)
 		{
 			// defeat the monster: progress to next stage
 			currentRoomNumber++;
-			
-			// gain experience 			
-			foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
-				((Hero)hero).combatAbility ++;
-			
 			
 			// ultimate victory ?
 			if(currentRoomNumber > numberOfRooms)

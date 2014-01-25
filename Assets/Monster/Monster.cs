@@ -62,7 +62,7 @@ public class Monster : MonoBehaviour
 		tail.AddComponent(MonsterQualifier.random());
 		
 		// set monster strength
-		strength =  UnityEngine.Random.Range(0, 20) +  5 * Dungeon.instance.currentRoomNumber; // at level 10 [50, 70]
+		strength =  UnityEngine.Random.Range(-55, 45) +  5*Dungeon.instance.currentRoomNumber;
 	}
 	
 	void Start()

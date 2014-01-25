@@ -11,22 +11,12 @@ public class Hero : MonoBehaviour
 	
 	#region phobias and predispositions 
 	
-	public int combatAbility;
-	
-	public int braveryModifier;
-	
 	public void reset()
 	{
 		// remove all sub-objects
 		foreach(Transform child in transform)
 			DestroyImmediate(child.gameObject);
-		
-		// generate combat strength
-		combatAbility = UnityEngine.Random.Range(5, 3);
-		
-		// generate bravery
-		//braveryModifier = UnityEngine.Random.Range(-5, 5);
-		
+
 		// generate phobia(s)
 		var phobias = new GameObject("Phobias");
 		phobias.transform.parent = transform;
@@ -62,12 +52,7 @@ public class Hero : MonoBehaviour
 			
 			// base fear's initial value on the monster's actual strength
 			int total = monster.strength;
-			
-			// take the party's strength into account
-			foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
-				total -= ((Hero)hero).combatAbility;
 
-			
 			// take phobias into account
 			foreach(MonsterQualifier phobia in phobias)
 			{
@@ -77,7 +62,8 @@ public class Hero : MonoBehaviour
 					if(phobia.GetType() == qualifier.GetType())
 						exponent ++;
 				}
-				total += 15*(int)Math.Pow(2, exponent);
+				if(exponent > 0)
+					total += (int)Math.Pow(3, exponent + 1);
 			}
 			
 			// take bravery into account
@@ -115,6 +101,7 @@ public class Hero : MonoBehaviour
 			case Dungeon.State.DECISION:
 			case Dungeon.State.COMBAT:
 				float normalisedFear = (Mathf.Clamp(fear, minFear, maxFear) - minFear) / (maxFear - minFear);
+				normalisedFear *= normalisedFear;
 				portraitTexture = (Texture)Resources.Load("Portrait" + ((int)(normalisedFear * (numberOfPortraits-1))).ToString("D2"));
 				break;
 			
