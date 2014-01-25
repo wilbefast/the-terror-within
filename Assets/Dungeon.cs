@@ -14,6 +14,7 @@ public class Dungeon : MonoBehaviour
 	}
 	
 	#endregion singleton 
+
 	
 	#region states 
 	
@@ -51,6 +52,8 @@ public class Dungeon : MonoBehaviour
 			case State.ADVANCING:
 				// move the monster
 				Monster.instance.transform.Translate(-4*Time.deltaTime, 0, 0);
+				// move the background
+				parallax.RotateAround(Vector3.up, 0.1f*Time.deltaTime);
 				if(Monster.instance.transform.position.x <= 5.0f)
 					state = State.DECISION;
 				break;
@@ -59,6 +62,8 @@ public class Dungeon : MonoBehaviour
 				// move the monster
 				if(Monster.instance.transform.localPosition.x < 0)
 					Monster.instance.transform.Translate(8*Time.deltaTime, 0, 0);
+				// move the background
+				parallax.RotateAround(Vector3.up, -0.2f*Time.deltaTime);
 				break;
 		}
 	}
@@ -162,6 +167,8 @@ public class Dungeon : MonoBehaviour
 	#endregion user interface 
 	
 	#region advance 
+	
+	public Transform parallax;
 	
 	private static readonly float descendDuration = 3.0f; 
 	
