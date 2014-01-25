@@ -3,6 +3,18 @@ using System.Collections;
 
 public class Dungeon : MonoBehaviour
 {
+	#region singleton 
+	
+	public static Dungeon instance
+	{
+		get
+		{
+			return (Dungeon)(GameObject.FindSceneObjectsOfType(typeof(Dungeon))[0]);
+		}
+	}
+	
+	#endregion singleton 
+	
 	#region input: keyboard controls 
 	
 	public KeyCode fightKey;
@@ -56,15 +68,6 @@ public class Dungeon : MonoBehaviour
 			totalCombatAbility += ((Hero)hero).combatAbility;
 		return totalCombatAbility;
 	}
-	
-	public Monster monster
-	{
-		get
-		{
-			return (Monster)GameObject.FindSceneObjectsOfType(typeof(Monster))[0];
-		}
-	}
-	
 	#endregion dungeon progression 
 	
 	#region user interface 
@@ -72,10 +75,10 @@ public class Dungeon : MonoBehaviour
 	void OnGUI()
 	{
 		if(GUI.Button(new Rect(400, 50, 100, 50), "Run"))
-			monster.reset();
+			Monster.instance.reset();
 		
 		if(GUI.Button(new Rect(550, 50, 100, 50), "Fight"))
-			monster.reset();
+			Monster.instance.reset();
 	}
 	
 	#endregion user interface 

@@ -3,6 +3,19 @@ using System.Collections;
 
 public class Monster : MonoBehaviour
 {
+	#region singleton 
+	
+	public static Monster instance
+	{
+		get
+		{
+			return (Monster)(GameObject.FindSceneObjectsOfType(typeof(Monster))[0]);
+		}
+	}
+	
+	#endregion singleton 
+	
+	
 	public int strength;
 	
 	public void reset()
@@ -47,11 +60,7 @@ public class Monster : MonoBehaviour
 		
 		// set monster strength
 		strength =  UnityEngine.Random.Range(5, 25);
-	}
-
-	void Start()
-	{
-		reset();
+		strength += Dungeon.instance.currentRoomNumber;
 	}
 	
 	public IEnumerable qualifiers
