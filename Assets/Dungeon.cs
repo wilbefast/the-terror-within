@@ -61,7 +61,8 @@ public class Dungeon : MonoBehaviour
 		{
 			case State.ADVANCING:
 				// move the monster
-				Monster.instance.transform.Translate(-4*Time.deltaTime, 0, 0);
+				if(currentRoomNumber < numberOfRooms)
+					Monster.instance.transform.Translate(-4*Time.deltaTime, 0, 0);
 				// move the background
 				parallax.RotateAround(Vector3.up, 0.1f*Time.deltaTime);
 				if(Monster.instance.transform.position.x <= 5.0f)
@@ -197,7 +198,13 @@ public class Dungeon : MonoBehaviour
 			remainingTime -= Time.deltaTime;
 			
 			roomOffset = 1 - remainingTime/descendDuration;
-			RenderSettings.ambientLight = Color.Lerp(Color.white, Color.black, Dungeon.instance.progress);
+			RenderSettings.ambientLight = Color.Lerp(
+				RenderSettings.ambientLight, 
+				Color.Lerp(
+					Color.white, 
+					Color.black, 
+					Dungeon.instance.progress*0.9f), 
+				Time.deltaTime);
 			
 			yield return null;
 		}
@@ -277,7 +284,7 @@ public class Dungeon : MonoBehaviour
 				irrationalFearBonus = 0;
 			
 			// celebrate
-			yield return new WaitForSeconds(combatDuration);
+			yield return new WaitForSeconds(celebrateDuration);
 			
 			currentRoomNumber++;
 			
