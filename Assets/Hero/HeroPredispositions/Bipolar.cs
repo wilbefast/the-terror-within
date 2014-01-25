@@ -1,17 +1,17 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class Bipolar : HeroPredisposition
 {
-	bool manic;
+	int manic;
 	private int mania = 15;
 	void Start()
 	{
-		manic = (Random.value >= 0.5);
+		manic = UnityEngine.Random.Range(0,1);
 	}
 	public override int ModifyFear(int fear)
 	{
-		manic = !manic;
-		return manic ? fear + mania : fear - mania;
+		return fear + ((int)Math.Pow(-1,(Dungeon.instance.currentRoomNumber + manic)) * mania);
 	}
 }
