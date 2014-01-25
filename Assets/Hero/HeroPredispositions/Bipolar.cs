@@ -11,6 +11,6 @@ public class Bipolar : HeroPredisposition
 	public override int ModifyFear(int fear)
 	{
 		manic = !manic;
-		return manic ? fear + 3 : fear - 3;
+		return manic ? fear + 10 : fear - 10;
 	}
 }

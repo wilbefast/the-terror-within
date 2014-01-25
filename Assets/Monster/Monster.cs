@@ -43,6 +43,7 @@ public class Monster : MonoBehaviour
 		
 		// set monster strength
 		strength =  UnityEngine.Random.Range(5,25);
+		strength += GameObject.Find ("Dungeon").GetComponent<Dungeon>().currentRoomNumber;
 	}
 	
 	public IEnumerable qualifiers
