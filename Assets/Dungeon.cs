@@ -61,7 +61,7 @@ public class Dungeon : MonoBehaviour
 		{
 			case State.ADVANCING:
 				// move the monster
-				if(currentRoomNumber < numberOfRooms)
+				if(currentRoomNumber <= numberOfRooms)
 					Monster.instance.transform.Translate(-4*Time.deltaTime, 0, 0);
 				// move the background
 				parallax.RotateAround(Vector3.up, 0.1f*Time.deltaTime);
@@ -169,6 +169,8 @@ public class Dungeon : MonoBehaviour
 				break;
 			
 			case State.VICTORY:
+				foreach(Transform child in Monster.instance.transform)
+					Destroy (child.gameObject);
 				if(GUI.Button(new Rect(550, 200, 100, 50), "WINNER! Try again?"))
 					reset();
 				break;
@@ -290,14 +292,18 @@ public class Dungeon : MonoBehaviour
 			
 			// ultimate victory ?
 			if(currentRoomNumber > numberOfRooms)
+			{
 				state = State.VICTORY;
+			}
+			else
+			{
+				// advance toward the next monster
+				state = State.ADVANCING;
+				Monster.instance.reset();
 				
-			// advance toward the next monster
-			state = State.ADVANCING;
-			Monster.instance.reset();
-			
-			// progress to next stage
-			StartCoroutine(__descendIntoDarkness());
+				// progress to next stage
+				StartCoroutine(__descendIntoDarkness());
+			}
 		}
 		else if(Monster.instance.strength - numberOfRooms + currentRoomNumber <= 0)
 		{

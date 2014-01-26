@@ -61,7 +61,7 @@ public class Monster : MonoBehaviour
 		tail.AddComponent(MonsterQualifier.random());
 		
 		// set relative strength between monster and player. A -ve number means the monster is stronger.
-		strength =  UnityEngine.Random.Range(-20, 20);
+		strength =  UnityEngine.Random.Range(-(Dungeon.numberOfRooms-Dungeon.instance.currentRoomNumber + 3), (Dungeon.numberOfRooms-Dungeon.instance.currentRoomNumber + 3));
 	}
 	
 	public IEnumerable qualifiers
