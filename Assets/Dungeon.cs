@@ -123,6 +123,7 @@ public class Dungeon : MonoBehaviour
 	#endregion dungeon progression 
 	
 	#region user interface 
+	public Texture heart, halfHeart;
 	
 	void OnGUI()
 	{
@@ -172,7 +173,15 @@ public class Dungeon : MonoBehaviour
 		
 		
 		GUI.Box(new Rect(20, 100, 300, 50), "room: " + currentRoomNumber);
-		GUI.Box(new Rect(20, 20, 300, 50), "Stamina: " + currentStamina);
+		//GUI.Box(new Rect(20, 20, 300, 50), "Stamina: " + currentStamina);
+		for(int i = 1; i <= 20; i++)
+		{
+			if(i % 2 == 0 && i <= currentStamina)
+				GUI.Label (new Rect(20+(i*15),20,30,30),heart);
+			if(i % 2 == 1 && i == currentStamina)
+				GUI.Label (new Rect(20+((i+1)*15),20,30,30),halfHeart);				
+		}
+		
 		
 	}
 	
@@ -296,10 +305,7 @@ public class Dungeon : MonoBehaviour
 			// Face your fears bonus
 			if(totalFear > 0)
 			{
-				//don't ask.
-				//irrationalFearBonus = (int)Math.Round(((float)totalFear/100f)/(((float)-Monster.instance.strength)
-				//								/(float)(numberOfRooms-currentRoomNumber + 3))*10f);
-				irrationalFearBonus = (int)(totalFear/10) + Monster.instance.strength;
+				irrationalFearBonus = (int)(Mathf.Log(totalFear,3));
 				currentStamina += irrationalFearBonus;
 				currentStamina = Math.Min (currentStamina,startingStamina);
 			}

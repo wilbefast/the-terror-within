@@ -2,7 +2,10 @@ fileFormatVersion: 2
 guid: 5134916ae76685144ae8c884ac35ceda
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - heart: {fileID: 2800000, guid: 656b95979f016e54196b36509eea17af, type: 3}
+  - halfHeart: {fileID: 2800000, guid: 6ce429a2c86dca848b78acfb6408f7f9, type: 3}
+  - parallax: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
