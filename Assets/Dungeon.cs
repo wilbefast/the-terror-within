@@ -40,9 +40,10 @@ public class Dungeon : MonoBehaviour
 			return __state;
 		}
 		
-		private set
+		private set 
 		{
-			
+			if(value == State.DEFEAT)
+				Debug.Log ("Defeat?!");
 			__state = value;
 		}
 	}
@@ -123,7 +124,7 @@ public class Dungeon : MonoBehaviour
 	#endregion dungeon progression 
 	
 	#region user interface 
-	public Texture heart, halfHeart;
+	public Texture heart, halfHeart, emptyHeart;
 	
 	void OnGUI()
 	{
@@ -173,13 +174,16 @@ public class Dungeon : MonoBehaviour
 		
 		
 		GUI.Box(new Rect(20, 100, 300, 50), "room: " + currentRoomNumber);
-		//GUI.Box(new Rect(20, 20, 300, 50), "Stamina: " + currentStamina);
+
+		// show player health as hearts
 		for(int i = 1; i <= 20; i++)
 		{
 			if(i % 2 == 0 && i <= currentStamina)
 				GUI.Label (new Rect(20+(i*15),20,30,30),heart);
 			if(i % 2 == 1 && i == currentStamina)
-				GUI.Label (new Rect(20+((i+1)*15),20,30,30),halfHeart);				
+				GUI.Label (new Rect(20+((i+1)*15),20,30,30),halfHeart);
+			if(i % 2 == 0 && i>currentStamina && (i-1) != currentStamina)
+				GUI.Label (new Rect(20+(i*15),20,30,30),emptyHeart);
 		}
 		
 		
