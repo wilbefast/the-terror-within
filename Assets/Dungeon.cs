@@ -125,8 +125,10 @@ public class Dungeon : MonoBehaviour
 	
 	#region user interface 
 	public Texture heart, halfHeart, emptyHeart;
-	public Texture fightButton, flightButton;
+	public Texture fightButton, fightButtonHover, fightButtonPressed, fleeButton, fleeButtonHover, fleeButtonPressed;
 	private GUIStyle buttonStyle = new GUIStyle();
+	private Rect fightButtonCollider = new Rect(320, 300, 200, 100);
+	private Rect fleeButtonCollider = new Rect(120, 300, 200, 100);
 	
 	void OnGUI()
 	{
@@ -134,18 +136,56 @@ public class Dungeon : MonoBehaviour
 		switch(__state)
 		{
 			case State.DECISION:
-				if(GUI.Button(new Rect(400, 50, 150, 75), flightButton, buttonStyle))
+				// choose to run away
+				if(fleeButtonCollider.Contains(Event.current.mousePosition) && Input.GetMouseButton(0))
 				{
-					// choose to run away
-					StartCoroutine(__flight());
-					break;
+					if(GUI.Button(fleeButtonCollider, fleeButtonPressed, buttonStyle))
+					{
+						StartCoroutine(__flight());
+						break;
+					}
 				}
-				
-				if(GUI.Button(new Rect(550, 50, 150, 75), fightButton, buttonStyle))
+  				else if(fleeButtonCollider.Contains(Event.current.mousePosition))
 				{
-					// choose to fight
-					StartCoroutine(__combat());
-					break;
+					if(GUI.Button(fleeButtonCollider, fleeButtonHover, buttonStyle))
+					{
+						StartCoroutine(__flight());
+						break;
+					}
+				}
+				else
+				{
+					if(GUI.Button(fleeButtonCollider, fleeButton, buttonStyle))
+					{
+						StartCoroutine(__flight());
+						break;
+					}
+				}
+			
+				// choose to fight
+				if(fightButtonCollider.Contains(Event.current.mousePosition) && Input.GetMouseButton(0))
+				{
+					if(GUI.Button(fightButtonCollider, fightButtonPressed, buttonStyle))
+					{
+						StartCoroutine(__combat());
+						break;
+					}
+				}
+  				else if(fightButtonCollider.Contains(Event.current.mousePosition))
+				{
+					if(GUI.Button(fightButtonCollider, fightButtonHover, buttonStyle))
+					{
+						StartCoroutine(__combat());
+						break;
+					}
+				}
+				else
+				{
+					if(GUI.Button(fightButtonCollider, fightButton, buttonStyle))
+					{
+						StartCoroutine(__combat());
+						break;
+					}
 				}
 				break;
 			
