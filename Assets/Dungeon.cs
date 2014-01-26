@@ -125,6 +125,8 @@ public class Dungeon : MonoBehaviour
 	
 	#region user interface 
 	public Texture heart, halfHeart, emptyHeart;
+	public Texture fightButton, flightButton;
+	private GUIStyle buttonStyle = new GUIStyle();
 	
 	void OnGUI()
 	{
@@ -132,14 +134,14 @@ public class Dungeon : MonoBehaviour
 		switch(__state)
 		{
 			case State.DECISION:
-				if(GUI.Button(new Rect(400, 50, 100, 50), "Flee"))
+				if(GUI.Button(new Rect(400, 50, 150, 75), flightButton, buttonStyle))
 				{
 					// choose to run away
 					StartCoroutine(__flight());
 					break;
 				}
 				
-				if(GUI.Button(new Rect(550, 50, 100, 50), "Fight"))
+				if(GUI.Button(new Rect(550, 50, 150, 75), fightButton, buttonStyle))
 				{
 					// choose to fight
 					StartCoroutine(__combat());
