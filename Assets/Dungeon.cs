@@ -42,14 +42,6 @@ public class Dungeon : MonoBehaviour
 		
 		private set
 		{
-			switch(value)
-			{
-			case State.FLEEING:
-				score -= 100;
-				if(score < 0)
-					score = 0;
-				break;
-			}
 			
 			__state = value;
 		}
@@ -61,7 +53,7 @@ public class Dungeon : MonoBehaviour
 		{
 			case State.ADVANCING:
 				// move the monster
-				if(currentRoomNumber < numberOfRooms)
+				if(currentRoomNumber <= numberOfRooms)
 					Monster.instance.transform.Translate(-4*Time.deltaTime, 0, 0);
 				// move the background
 				parallax.RotateAround(Vector3.up, 0.1f*Time.deltaTime);
@@ -84,8 +76,10 @@ public class Dungeon : MonoBehaviour
 	#region dungeon progression 
 	
 	public static readonly int numberOfRooms = 10;
-	
+	private static readonly int startingStamina = 20;
+		
 	public int currentRoomNumber;
+	private int currentStamina;
 	private float roomOffset = 0.0f;
 	
 	public float progress
@@ -96,7 +90,6 @@ public class Dungeon : MonoBehaviour
 		}
 	}
 	
-	public int score;
 	private int irrationalFearBonus;
 	
 	void Start()
@@ -106,8 +99,8 @@ public class Dungeon : MonoBehaviour
 	
 	public void reset()
 	{	
-		// reset the score
-		score = 0;
+		// reset the party's stamina
+		currentStamina = startingStamina;
 		
 		// reset the state
 		__state = State.ADVANCING;
@@ -169,6 +162,8 @@ public class Dungeon : MonoBehaviour
 				break;
 			
 			case State.VICTORY:
+				foreach(Transform child in Monster.instance.transform)
+					Destroy (child.gameObject);
 				if(GUI.Button(new Rect(550, 200, 100, 50), "WINNER! Try again?"))
 					reset();
 				break;
@@ -176,10 +171,8 @@ public class Dungeon : MonoBehaviour
 		
 		
 		
-		GUI.Box(new Rect(20, 20, 300, 50), "score: " + score);
-		
 		GUI.Box(new Rect(20, 100, 300, 50), "room: " + currentRoomNumber);
-	
+		GUI.Box(new Rect(20, 20, 300, 50), "Stamina: " + currentStamina);
 		
 	}
 	
@@ -224,6 +217,12 @@ public class Dungeon : MonoBehaviour
 	
 	private IEnumerator __flight()
 	{
+		// increase stamina if the party would have lost the fight, decrease it otherwise
+		if(Monster.instance.strength > 0)
+			currentStamina = Math.Min (currentStamina + 1,startingStamina);
+		else
+			currentStamina--;	
+		
 		// start to flee
 		state = State.FLEEING;
 		
@@ -239,10 +238,27 @@ public class Dungeon : MonoBehaviour
 		// move out towards a new monster
 		Monster.instance.reset();
 		state = State.ADVANCING;
-		
-		
 	}
 	
+	private IEnumerator __forcedFlight()
+	{
+		// start to flee
+		state = State.FLEEING;
+		
+		// flee
+		yield return new WaitForSeconds(fleeDuration);
+	
+		// start to regroup
+		state = State.REGROUPING;
+		
+		// regroup
+		yield return new WaitForSeconds(regroupDuration);
+		
+		// move out towards a new monster
+		Monster.instance.reset();
+		state = State.ADVANCING;
+	}
+
 	#endregion escape 
 	
 	#region combat 
@@ -257,7 +273,7 @@ public class Dungeon : MonoBehaviour
 		{
 			int total = 0;
 			foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
-				total += Math.Min (25,((Hero)hero).fear);
+				total += Mathf.Clamp(((Hero)hero).fear,-25,25);
 			
 			return total;
 		}
@@ -277,11 +293,17 @@ public class Dungeon : MonoBehaviour
 			// start celebrating this battle being won
 			state = State.CELEBRATING;
 		
-			// add score
-			score += 500;
-			irrationalFearBonus = (int)Mathf.Floor((1.0f - (totalFear / (float)Monster.instance.strength)))*100;
-			if(irrationalFearBonus > 0)
-				score += irrationalFearBonus;
+			// Face your fears bonus
+			if(totalFear > 0)
+			{
+				//don't ask.
+				//irrationalFearBonus = (int)Math.Round(((float)totalFear/100f)/(((float)-Monster.instance.strength)
+				//								/(float)(numberOfRooms-currentRoomNumber + 3))*10f);
+				irrationalFearBonus = (int)(totalFear/10) + Monster.instance.strength;
+				currentStamina += irrationalFearBonus;
+				currentStamina = Math.Min (currentStamina,startingStamina);
+			}
+			
 			else
 				irrationalFearBonus = 0;
 			
@@ -292,23 +314,31 @@ public class Dungeon : MonoBehaviour
 			
 			// ultimate victory ?
 			if(currentRoomNumber > numberOfRooms)
+			{
 				state = State.VICTORY;
+			}
+			else
+			{
+				// advance toward the next monster
+				state = State.ADVANCING;
+				Monster.instance.reset();
 				
-			// advance toward the next monster
-			state = State.ADVANCING;
-			Monster.instance.reset();
-			
-			// progress to next stage
-			StartCoroutine(__descendIntoDarkness());
-		}
-		else if(Monster.instance.strength - numberOfRooms + currentRoomNumber <= 0)
-		{
-			StartCoroutine(__flight());
+				// progress to next stage
+				StartCoroutine(__descendIntoDarkness());
+			}
 		}
 		else
 		{
-			// disaster !
-			state = State.DEFEAT;
+			currentStamina -= Monster.instance.strength;
+			if(currentStamina <=0)
+			{
+				// disaster !
+				state = State.DEFEAT;
+			}
+			else
+			{
+				StartCoroutine(__forcedFlight());
+			}
 		}
 	}
 		

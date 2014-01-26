@@ -5,7 +5,7 @@ using System;
 public class Bipolar : HeroPredisposition
 {
 	int manic;
-	private int mania = 15;
+	private int mania = 25;
 	void Start()
 	{
 		manic = UnityEngine.Random.Range(0,1);
