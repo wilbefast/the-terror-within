@@ -39,7 +39,7 @@ public abstract class HeroNote : MonoBehaviour
 		{
 			var p = Camera.main.WorldToScreenPoint(transform.position);
 			rect.x = p.x - rect.width/2;
-			rect.y = Screen.height*0.7f - p.y - rect.height;
+			rect.y = Screen.height*0.6f - p.y - rect.height;
 			GUI.Box(rect, getFlavourText());
 		}
 	}
