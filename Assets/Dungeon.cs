@@ -50,6 +50,9 @@ public class Dungeon : MonoBehaviour
 	
 	void Update()
 	{
+		if(Input.GetKey(KeyCode.Escape))
+			Application.Quit();
+		
 		switch(state)
 		{
 			case State.ADVANCING:
