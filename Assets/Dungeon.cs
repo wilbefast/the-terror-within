@@ -44,11 +44,6 @@ public class Dungeon : MonoBehaviour
 		{
 			switch(value)
 			{
-			case State.FLEEING:
-				score -= 100;
-				if(score < 0)
-					score = 0;
-				break;
 			}
 			
 			__state = value;
@@ -84,8 +79,10 @@ public class Dungeon : MonoBehaviour
 	#region dungeon progression 
 	
 	public static readonly int numberOfRooms = 10;
-	
+	private static readonly int startingStamina = 20;
+		
 	public int currentRoomNumber;
+	private int currentStamina;
 	private float roomOffset = 0.0f;
 	
 	public float progress
@@ -96,7 +93,6 @@ public class Dungeon : MonoBehaviour
 		}
 	}
 	
-	public int score;
 	private int irrationalFearBonus;
 	
 	void Start()
@@ -106,8 +102,8 @@ public class Dungeon : MonoBehaviour
 	
 	public void reset()
 	{	
-		// reset the score
-		score = 0;
+		// reset the party's stamina
+		currentStamina = startingStamina;
 		
 		// reset the state
 		__state = State.ADVANCING;
@@ -178,7 +174,7 @@ public class Dungeon : MonoBehaviour
 		
 		GUI.Box(new Rect(20, 470, 300, 50), "room: " + currentRoomNumber);
 		
-		GUI.Box(new Rect(20, 20, 300, 50), "score: " + score);
+		GUI.Box(new Rect(20, 20, 300, 50), "Stamina: " + currentStamina);
 	
 		
 	}
@@ -277,11 +273,16 @@ public class Dungeon : MonoBehaviour
 			// start celebrating this battle being won
 			state = State.CELEBRATING;
 		
-			// add score
-			score += 500;
-			irrationalFearBonus = (int)Mathf.Floor((1.0f - (totalFear / (float)Monster.instance.strength)))*100;
-			if(irrationalFearBonus > 0)
-				score += irrationalFearBonus;
+			// Face your fears bonus
+			if(totalFear > 0)
+			{
+				//don't ask.
+				irrationalFearBonus = (int)Math.Round(((float)totalFear/100f)/(((float)-Monster.instance.strength)
+												/(float)(numberOfRooms-currentRoomNumber + 3))*10f);
+				currentStamina += irrationalFearBonus;
+				currentStamina = Math.Min (currentStamina,startingStamina);
+			}
+			
 			else
 				irrationalFearBonus = 0;
 			
@@ -305,14 +306,22 @@ public class Dungeon : MonoBehaviour
 				StartCoroutine(__descendIntoDarkness());
 			}
 		}
-		else if(Monster.instance.strength - numberOfRooms + currentRoomNumber <= 0)
+/*		else if(Monster.instance.strength - numberOfRooms + currentRoomNumber <= 0)
 		{
 			StartCoroutine(__flight());
 		}
-		else
+*/		else
 		{
-			// disaster !
-			state = State.DEFEAT;
+			currentStamina -= Monster.instance.strength;
+			if(currentStamina <=0)
+			{
+				// disaster !
+				state = State.DEFEAT;
+			}
+			else
+			{
+				StartCoroutine(__flight());
+			}
 		}
 	}
 		
