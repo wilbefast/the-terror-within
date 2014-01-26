@@ -17,18 +17,28 @@ public class Hero : MonoBehaviour
 		portrait.GetComponent<HeroPortrait>().hero = this;
 		portrait.transform.parent = transform;
 		portrait.transform.localPosition = Vector3.zero;
-
-		// generate phobia(s)
+		
+		// generate phobia
 		var phobias = new GameObject("Phobias");
 		phobias.transform.parent = transform;
 		phobias.AddComponent(MonsterQualifier.random());
 		phobias.transform.localPosition = Vector3.zero;
 		
-		// generate predisposition(s)
+		// create phobia note
+		var phobiaNote = (GameObject)Instantiate(Resources.Load("PhobiaNotePrefab"));
+		phobiaNote.transform.position += transform.position;
+		phobiaNote.transform.parent = transform;
+		
+		// generate predisposition
 		var predispositions = new GameObject("Predispositions");
 		predispositions.transform.parent = transform;
 		predispositions.AddComponent(HeroPredisposition.random());
 		predispositions.transform.localPosition = Vector3.zero;
+		
+		// create predisposition note
+		var predispositionNote = (GameObject)Instantiate(Resources.Load("PredispositionNotePrefab"));
+		predispositionNote.transform.position += transform.position;
+		predispositionNote.transform.parent = transform;
 	}
 	
 	public IEnumerable phobias
