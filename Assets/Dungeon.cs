@@ -157,7 +157,7 @@ public class Dungeon : MonoBehaviour
 			case State.FLEEING:
 			case State.COMBAT:
 				// show the strength of the party relative to the monster. +ve means the *party* is stronger.
-				GUI.Box(new Rect(300, 500, 300, 50),  (-Monster.instance.strength).ToString("+#;-#;0"));
+				GUI.Box(new Rect(370, 10, 300, 50),  (-Monster.instance.strength).ToString("+#;-#;0"));
 				break;
 			
 			case State.DEFEAT:
@@ -175,7 +175,7 @@ public class Dungeon : MonoBehaviour
 		
 		
 		
-		GUI.Box(new Rect(20, 100, 300, 50), "room: " + currentRoomNumber);
+		//GUI.Box(new Rect(20, 100, 300, 50), "room: " + currentRoomNumber);
 
 		// show player health as hearts
 		for(int i = 1; i <= 20; i++)

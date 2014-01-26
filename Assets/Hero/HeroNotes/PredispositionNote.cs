@@ -8,6 +8,11 @@ public class PredispositionNote : HeroNote
 		"UnknownPredisposition", "Bipolar", "Optimistic", "Pessimistic", "PrimaDonna", "Realist"
 	};
 	
+	private static readonly string[] flavourText =
+	{
+		"UnknownPredisposition", "Bipolar", "Optimistic", "Pessimistic", "PrimaDonna", "Realist"
+	};
+	
 	private int currentIndex = 0;
 	
 	void Start()
@@ -20,20 +25,20 @@ public class PredispositionNote : HeroNote
 		renderer.material.mainTexture = (Texture)Resources.Load("Note" + predispositions[currentIndex]);
 	}
 	
-	void Update()
+	protected override void switchNote()
 	{
-		if(!hovering)
-			return;
-		
-		if(Input.GetMouseButtonDown(0))
-		{
-			currentIndex = (currentIndex + 1) % predispositions.Length;
-			resetTexture();
-		}
-		else if(Input.GetMouseButtonDown(1))
-		{
-			currentIndex = 0;
-			resetTexture();
-		}
+		currentIndex = (currentIndex + 1) % predispositions.Length;
+		resetTexture();
+	}
+	
+	protected override void resetNote()
+	{
+		currentIndex = 0;
+		resetTexture();
+	}
+	
+	protected override string getFlavourText()
+	{
+		return flavourText[currentIndex];
 	}
 }
