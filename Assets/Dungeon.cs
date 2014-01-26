@@ -42,9 +42,6 @@ public class Dungeon : MonoBehaviour
 		
 		private set
 		{
-			switch(value)
-			{
-			}
 			
 			__state = value;
 		}
@@ -276,7 +273,7 @@ public class Dungeon : MonoBehaviour
 		{
 			int total = 0;
 			foreach(var hero in GameObject.FindSceneObjectsOfType(typeof(Hero)))
-				total += Math.Min (25,((Hero)hero).fear);
+				total += Mathf.Clamp(((Hero)hero).fear,-25,25);
 			
 			return total;
 		}
@@ -300,8 +297,9 @@ public class Dungeon : MonoBehaviour
 			if(totalFear > 0)
 			{
 				//don't ask.
-				irrationalFearBonus = (int)Math.Round(((float)totalFear/100f)/(((float)-Monster.instance.strength)
-												/(float)(numberOfRooms-currentRoomNumber + 3))*10f);
+				//irrationalFearBonus = (int)Math.Round(((float)totalFear/100f)/(((float)-Monster.instance.strength)
+				//								/(float)(numberOfRooms-currentRoomNumber + 3))*10f);
+				irrationalFearBonus = (int)(totalFear/10) + Monster.instance.strength;
 				currentStamina += irrationalFearBonus;
 				currentStamina = Math.Min (currentStamina,startingStamina);
 			}
