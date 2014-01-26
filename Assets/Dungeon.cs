@@ -174,9 +174,11 @@ public class Dungeon : MonoBehaviour
 				break;
 		}
 		
-		GUI.Box(new Rect(20, 470, 300, 50), "room: " + currentRoomNumber);
+		
 		
 		GUI.Box(new Rect(20, 20, 300, 50), "score: " + score);
+		
+		GUI.Box(new Rect(20, 100, 300, 50), "room: " + currentRoomNumber);
 	
 		
 	}
