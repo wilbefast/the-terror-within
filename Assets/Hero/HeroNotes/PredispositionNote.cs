@@ -10,7 +10,12 @@ public class PredispositionNote : HeroNote
 	
 	private static readonly string[] flavourText =
 	{
-		"UnknownPredisposition", "Bipolar", "Optimistic", "Pessimistic", "PrimaDonna", "Realist"
+		"Unknown temperement\nWe don't see things as they are,\nwe see them as we are...",
+		"Bipolar\nLife is full of ups and down,\nsome bigger than others.",
+		"Optimistic\nSometimes it can be a bad thing to be too optimistic",
+		"Pessimistic\nBetter safe than sorry.\nSome people like to be very safe.",
+		"Prima donna\nMaking a mountain out of every molehill since 1982!",
+		"Realist\nAccurately evaluates the situation"
 	};
 	
 	private int currentIndex = 0;

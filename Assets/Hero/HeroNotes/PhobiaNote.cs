@@ -10,23 +10,23 @@ public class PhobiaNote : HeroNote
 	
 	private static readonly string[] flavourText =
 	{
-		"UnknownPhobia", 
+		"Unknown phobia\nEveryone is afraid of something...", 
 		
-		"Fish", 
+		"Ichthyophobia\nJust can't stand fish: the scales, those dead, dead eyes!", 
+				
+		"Ommetaphobia\nHorrified by the very idea of being watched.\nWhile you sleep. Every night.",
 		
-		"Hairy", 
+		"Aichmophobia\nA perhaps not-so-irrational fear of sharp objects.", 
 		
-		"Horned", 
+		"Ailurophobia\nTerrified of cats, or perhaps just allergic...", 
 		
-		"Lion", 
+		"Herpetophobia\nAn adject fear of cold-blooded reptiles, especially bankers.",
 		
-		"Lizard", 
+		"Octophobia\nAfraid of the number 8. Not great for mathematicians.",
 		
-		"Octopus", 
+		"Arachnophobia\nThere's one crawling up your arm as we speak.",
 		
-		"Spider", 
-		
-		"Swan"
+		"Ornithophobia\nA swan can break a body's arm with its wings!"
 	};
 	
 	private int currentIndex = 0;
