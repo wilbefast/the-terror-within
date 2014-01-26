@@ -296,9 +296,6 @@ public class Dungeon : MonoBehaviour
 			// Face your fears bonus
 			if(totalFear > 0)
 			{
-				//don't ask.
-				//irrationalFearBonus = (int)Math.Round(((float)totalFear/100f)/(((float)-Monster.instance.strength)
-				//								/(float)(numberOfRooms-currentRoomNumber + 3))*10f);
 				irrationalFearBonus = (int)(totalFear/10) + Monster.instance.strength;
 				currentStamina += irrationalFearBonus;
 				currentStamina = Math.Min (currentStamina,startingStamina);
