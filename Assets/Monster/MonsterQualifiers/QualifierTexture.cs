@@ -8,6 +8,8 @@ public class QualifierTexture : MonoBehaviour
 	void Start()
 	{
 		var qualifier = GetComponent<MonsterQualifier>();
+		if(qualifier == null)
+			qualifier = transform.parent.gameObject.GetComponent<MonsterQualifier>();
 		renderer.material.mainTexture = (Texture)Resources.Load(bodyPart + "/" + qualifier.qualifierName);
 	}
 }

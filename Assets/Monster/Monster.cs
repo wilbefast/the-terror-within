@@ -41,7 +41,6 @@ public class Monster : MonoBehaviour
 		var torso = (GameObject)Instantiate(Resources.Load("Torso"));
 		torso.transform.position += transform.position;
 		torso.transform.parent = bodyParts.transform;
-		torso.AddComponent(MonsterQualifier.random());
 		
 		// add arms
 		var arms = (GameObject)Instantiate(Resources.Load("Arms"));
