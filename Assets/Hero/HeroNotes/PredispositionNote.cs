@@ -12,12 +12,28 @@ public class PredispositionNote : HeroNote
 	
 	void Start()
 	{
+		resetTexture();
+	}
+	
+	private void resetTexture()
+	{
 		renderer.material.mainTexture = (Texture)Resources.Load("Note" + predispositions[currentIndex]);
 	}
 	
-	void OnMouseDown()
+	void Update()
 	{
-		currentIndex = (currentIndex + 1) % predispositions.Length;
-		renderer.material.mainTexture = (Texture)Resources.Load("Note" + predispositions[currentIndex]);
+		if(!hovering)
+			return;
+		
+		if(Input.GetMouseButtonDown(0))
+		{
+			currentIndex = (currentIndex + 1) % predispositions.Length;
+			resetTexture();
+		}
+		else if(Input.GetMouseButtonDown(1))
+		{
+			currentIndex = 0;
+			resetTexture();
+		}
 	}
 }

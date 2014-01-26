@@ -12,12 +12,28 @@ public class PhobiaNote : HeroNote
 	
 	void Start()
 	{
+		resetTexture();
+	}
+	
+	private void resetTexture()
+	{
 		renderer.material.mainTexture = (Texture)Resources.Load("Note" + qualifiers[currentIndex]);
 	}
 	
-	void OnMouseDown()
+	void Update()
 	{
-		currentIndex = (currentIndex + 1) % qualifiers.Length;
-		renderer.material.mainTexture = (Texture)Resources.Load("Note" + qualifiers[currentIndex]);
+		if(!hovering)
+			return;
+		
+		if(Input.GetMouseButtonDown(0))
+		{
+			currentIndex = (currentIndex + 1) % qualifiers.Length;
+			resetTexture();
+		}
+		else if(Input.GetMouseButtonDown(1))
+		{
+			currentIndex = 0;
+			resetTexture();
+		}
 	}
 }
