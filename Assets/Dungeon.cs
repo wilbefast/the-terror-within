@@ -223,6 +223,16 @@ public class Dungeon : MonoBehaviour
 		// start to flee
 		state = State.FLEEING;
 		
+		// increase stamina if the party would have lost the fight, decrease it otherwise
+		if(Monster.instance.strength > 0)
+		{
+			currentStamina++;
+		}
+		else
+		{
+			currentStamina--;	
+		}
+		
 		// flee
 		yield return new WaitForSeconds(fleeDuration);
 	
@@ -306,11 +316,6 @@ public class Dungeon : MonoBehaviour
 				StartCoroutine(__descendIntoDarkness());
 			}
 		}
-/*		else if(Monster.instance.strength - numberOfRooms + currentRoomNumber <= 0)
-		{
-			StartCoroutine(__flight());
-		}
-*/		else
 		{
 			currentStamina -= Monster.instance.strength;
 			if(currentStamina <=0)
