@@ -220,18 +220,14 @@ public class Dungeon : MonoBehaviour
 	
 	private IEnumerator __flight()
 	{
-		// start to flee
-		state = State.FLEEING;
-		
 		// increase stamina if the party would have lost the fight, decrease it otherwise
 		if(Monster.instance.strength > 0)
-		{
-			currentStamina++;
-		}
+			currentStamina = Math.Min (currentStamina + 1,startingStamina);
 		else
-		{
 			currentStamina--;	
-		}
+		
+		// start to flee
+		state = State.FLEEING;
 		
 		// flee
 		yield return new WaitForSeconds(fleeDuration);
@@ -245,10 +241,27 @@ public class Dungeon : MonoBehaviour
 		// move out towards a new monster
 		Monster.instance.reset();
 		state = State.ADVANCING;
-		
-		
 	}
 	
+	private IEnumerator __forcedFlight()
+	{
+		// start to flee
+		state = State.FLEEING;
+		
+		// flee
+		yield return new WaitForSeconds(fleeDuration);
+	
+		// start to regroup
+		state = State.REGROUPING;
+		
+		// regroup
+		yield return new WaitForSeconds(regroupDuration);
+		
+		// move out towards a new monster
+		Monster.instance.reset();
+		state = State.ADVANCING;
+	}
+
 	#endregion escape 
 	
 	#region combat 
@@ -316,6 +329,7 @@ public class Dungeon : MonoBehaviour
 				StartCoroutine(__descendIntoDarkness());
 			}
 		}
+		else
 		{
 			currentStamina -= Monster.instance.strength;
 			if(currentStamina <=0)
@@ -325,7 +339,7 @@ public class Dungeon : MonoBehaviour
 			}
 			else
 			{
-				StartCoroutine(__flight());
+				StartCoroutine(__forcedFlight());
 			}
 		}
 	}
