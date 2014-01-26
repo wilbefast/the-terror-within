@@ -5,6 +5,7 @@ MonoImporter:
   defaultReferences:
   - heart: {fileID: 2800000, guid: 656b95979f016e54196b36509eea17af, type: 3}
   - halfHeart: {fileID: 2800000, guid: 6ce429a2c86dca848b78acfb6408f7f9, type: 3}
+  - emptyHeart: {fileID: 2800000, guid: 8943e14768a8c08479ad5e0160965e97, type: 3}
   - parallax: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
