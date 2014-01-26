@@ -5,7 +5,7 @@ public class PhobiaNote : HeroNote
 {
 	private static readonly string[] qualifiers =
 	{
-		"UnknownPhobia", "Fish", "Hairy", "Horned", "Lion", "Lizard", "Octopus", "Spider", "Swan"
+		"UnknownPhobia", "Fish", "Hairy", "Horned", "Human", "Lion", "Lizard", "Octopus", "Spider", "Swan"
 	};
 	
 	private static readonly string[] flavourText =
@@ -17,6 +17,8 @@ public class PhobiaNote : HeroNote
 		"Ommetaphobia\nHorrified by the very idea of being watched.\nWhile you sleep. Every night.",
 		
 		"Aichmophobia\nA perhaps not-so-irrational fear of sharp objects.", 
+		
+		"Anthropophobia\nThe irrational fear of David Bowie...\nand people in general",
 		
 		"Ailurophobia\nTerrified of cats, or perhaps just allergic...", 
 		
