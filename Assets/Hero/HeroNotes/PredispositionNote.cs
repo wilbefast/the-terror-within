@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class PhobiaNote : HeroNote 
+public class PredispositionNote : HeroNote 
 {
-	private static readonly string[] qualifiers =
+	private static readonly string[] predispositions =
 	{
-		"UnknownPhobia", "Fish", "Hairy", "Horned", "Lion", "Lizard", "Octopus", "Spider", "Swan"
+		"UnknownPredisposition", "Bipolar", "Optimistic", "Pessimistic", "PrimaDonna", "Realist"
 	};
 	
 	private int currentIndex = 0;
@@ -17,7 +17,7 @@ public class PhobiaNote : HeroNote
 	
 	private void resetTexture()
 	{
-		renderer.material.mainTexture = (Texture)Resources.Load("Note" + qualifiers[currentIndex]);
+		renderer.material.mainTexture = (Texture)Resources.Load("Note" + predispositions[currentIndex]);
 	}
 	
 	void Update()
@@ -27,7 +27,7 @@ public class PhobiaNote : HeroNote
 		
 		if(Input.GetMouseButtonDown(0))
 		{
-			currentIndex = (currentIndex + 1) % qualifiers.Length;
+			currentIndex = (currentIndex + 1) % predispositions.Length;
 			resetTexture();
 		}
 		else if(Input.GetMouseButtonDown(1))

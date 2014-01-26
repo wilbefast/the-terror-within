@@ -1,23 +1,21 @@
 using UnityEngine;
 using System.Collections;
 
-public class HeroNote : MonoBehaviour 
+public abstract class HeroNote : MonoBehaviour 
 {
-	private static readonly string[] qualifiers =
+	private bool __hovering;
+	public bool hovering
 	{
-		"Unknown", "Fish", "Hairy", "Horned", "Lion", "Lizard", "Octopus", "Spider", "Swan"
-	};
-	
-	private int currentIndex = 0;
-	
-	void Start()
-	{
-		renderer.material.mainTexture = (Texture)Resources.Load("Note" + qualifiers[currentIndex]);
+		get { return __hovering; }
 	}
 	
-	void OnMouseDown()
+	void OnMouseEnter()
 	{
-		currentIndex = (currentIndex + 1) % qualifiers.Length;
-		renderer.material.mainTexture = (Texture)Resources.Load("Note" + qualifiers[currentIndex]);
+		__hovering = true;
+	}
+	
+	void OnMouseExit()
+	{
+		__hovering = false;
 	}
 }
